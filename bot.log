@@ -1,0 +1,174 @@
+2026-03-08 09:30:32,811 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:30:32,811 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 09:30:32,813 - discord.client - INFO - logging in using static token
+2026-03-08 09:30:33,746 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 0a0c9835411aeee0c7c13d9ea326b4ce).
+2026-03-08 09:30:45,396 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:30:45,397 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 09:33:56,331 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:33:56,333 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 09:50:04,807 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:50:04,807 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 09:58:10,815 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:58:10,816 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 09:59:35,122 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:59:35,123 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 09:59:43,569 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 09:59:43,569 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 10:01:04,075 - discord.gateway - INFO - Shard ID None has successfully RESUMED session 0a0c9835411aeee0c7c13d9ea326b4ce.
+2026-03-08 12:07:13,566 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:07:13,566 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:07:13,570 - discord.client - INFO - logging in using static token
+2026-03-08 12:07:14,694 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 510fc617317a7d0ee94230878bf02b59).
+2026-03-08 12:07:27,637 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:07:27,637 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:07:44,838 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:07:44,839 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:12:01,386 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:12:01,387 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:12:01,390 - discord.client - INFO - logging in using static token
+2026-03-08 12:12:02,451 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: a18b9365147b9088c6fc1f3073370254).
+2026-03-08 12:16:36,249 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:16:36,249 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:16:36,252 - discord.client - INFO - logging in using static token
+2026-03-08 12:16:37,312 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: f421321c571a6980baac2ec62647e89b).
+2026-03-08 12:21:20,615 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:21:20,615 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:21:20,619 - discord.client - INFO - logging in using static token
+2026-03-08 12:21:21,728 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 093e7a2482add333e81141195d082817).
+2026-03-08 12:21:49,145 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:21:49,145 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:21:49,149 - discord.client - INFO - logging in using static token
+2026-03-08 12:21:50,262 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: d3e19461638a8abb3e0b1294bd701ad8).
+2026-03-08 12:21:52,274 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-08 12:21:52,274 - GoonsClawbot - INFO - Guild: Apptivators Academy
+2026-03-08 12:21:52,274 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480202649688346716)
+2026-03-08 12:21:52,274 - GoonsClawbot - INFO -  - Channel: #general (ID: 1479944143613591764)
+2026-03-08 12:21:52,274 - GoonsClawbot - INFO -  - Channel: #gam3rgoons-clawbot (ID: 1479959164548546660)
+2026-03-08 12:21:52,274 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480202652561440851)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #resources (ID: 1480202834002841712)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #showcase (ID: 1480202834833309849)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #memes (ID: 1480202835667718218)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #career-growth (ID: 1480202836510904341)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #private-review-chambers (ID: 1480191656501186622)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #help-desk (ID: 1480202838784081930)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #code-reviews (ID: 1480202840424054824)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #quick-questions (ID: 1480202841170776066)
+2026-03-08 12:21:52,275 - GoonsClawbot - INFO -  - Channel: #learning-groups (ID: 1480202842622132225)
+2026-03-08 12:21:52,276 - GoonsClawbot - INFO -  - Channel: #web-dev (ID: 1480202844387672166)
+2026-03-08 12:21:52,276 - GoonsClawbot - INFO -  - Channel: #python (ID: 1480202845784506492)
+2026-03-08 12:21:52,276 - GoonsClawbot - INFO -  - Channel: #java-cpp (ID: 1480202846942138401)
+2026-03-08 12:21:52,276 - GoonsClawbot - INFO -  - Channel: #rust (ID: 1480202848250757303)
+2026-03-08 12:21:52,276 - GoonsClawbot - INFO -  - Channel: #ai-machine-learning (ID: 1480202849148211210)
+2026-03-08 12:21:52,276 - GoonsClawbot - INFO -  - Channel: #devops-cybersecurity (ID: 1480202850104512563)
+2026-03-08 12:39:30,250 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:39:30,251 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:39:30,254 - discord.client - INFO - logging in using static token
+2026-03-08 12:39:31,210 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 0894d4a175b22d52ed3379eea24bcc2d).
+2026-03-08 12:39:33,229 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO - Guild: Apptivators Academy
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480202649688346716)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #general (ID: 1479944143613591764)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #gam3rgoons-clawbot (ID: 1479959164548546660)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480202652561440851)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #resources (ID: 1480202834002841712)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #showcase (ID: 1480202834833309849)
+2026-03-08 12:39:33,230 - GoonsClawbot - INFO -  - Channel: #memes (ID: 1480202835667718218)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #career-growth (ID: 1480202836510904341)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #private-review-chambers (ID: 1480191656501186622)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #help-desk (ID: 1480202838784081930)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #code-reviews (ID: 1480202840424054824)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #quick-questions (ID: 1480202841170776066)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #learning-groups (ID: 1480202842622132225)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #web-dev (ID: 1480202844387672166)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #python (ID: 1480202845784506492)
+2026-03-08 12:39:33,231 - GoonsClawbot - INFO -  - Channel: #java-cpp (ID: 1480202846942138401)
+2026-03-08 12:39:33,232 - GoonsClawbot - INFO -  - Channel: #rust (ID: 1480202848250757303)
+2026-03-08 12:39:33,232 - GoonsClawbot - INFO -  - Channel: #ai-machine-learning (ID: 1480202849148211210)
+2026-03-08 12:39:33,232 - GoonsClawbot - INFO -  - Channel: #devops-cybersecurity (ID: 1480202850104512563)
+2026-03-08 12:39:49,955 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:39:49,955 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:46:19,096 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:46:19,096 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:59:09,404 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:59:09,404 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 12:59:09,408 - discord.client - INFO - logging in using static token
+2026-03-08 12:59:10,567 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 461da7642382f0f0fed491219c053f42).
+2026-03-08 12:59:12,611 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-08 12:59:12,612 - GoonsClawbot - INFO - Guild: Apptivators Academy
+2026-03-08 12:59:12,612 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480202649688346716)
+2026-03-08 12:59:12,612 - GoonsClawbot - INFO -  - Channel: #general (ID: 1479944143613591764)
+2026-03-08 12:59:12,612 - GoonsClawbot - INFO -  - Channel: #gam3rgoons-clawbot (ID: 1479959164548546660)
+2026-03-08 12:59:12,612 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480202652561440851)
+2026-03-08 12:59:12,612 - GoonsClawbot - INFO -  - Channel: #resources (ID: 1480202834002841712)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #showcase (ID: 1480202834833309849)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #memes (ID: 1480202835667718218)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #career-growth (ID: 1480202836510904341)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #private-review-chambers (ID: 1480191656501186622)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #help-desk (ID: 1480202838784081930)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #code-reviews (ID: 1480202840424054824)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #quick-questions (ID: 1480202841170776066)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #learning-groups (ID: 1480202842622132225)
+2026-03-08 12:59:12,613 - GoonsClawbot - INFO -  - Channel: #web-dev (ID: 1480202844387672166)
+2026-03-08 12:59:12,614 - GoonsClawbot - INFO -  - Channel: #python (ID: 1480202845784506492)
+2026-03-08 12:59:12,614 - GoonsClawbot - INFO -  - Channel: #java-cpp (ID: 1480202846942138401)
+2026-03-08 12:59:12,614 - GoonsClawbot - INFO -  - Channel: #rust (ID: 1480202848250757303)
+2026-03-08 12:59:12,614 - GoonsClawbot - INFO -  - Channel: #ai-machine-learning (ID: 1480202849148211210)
+2026-03-08 12:59:12,614 - GoonsClawbot - INFO -  - Channel: #devops-cybersecurity (ID: 1480202850104512563)
+2026-03-08 12:59:16,330 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 12:59:16,330 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 13:05:52,370 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 13:05:52,370 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 13:05:52,374 - discord.client - INFO - logging in using static token
+2026-03-08 13:05:54,086 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: b6be2a3f06fe1f0e5a53edd124abf710).
+2026-03-08 13:05:56,094 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-08 13:05:56,096 - GoonsClawbot - INFO - Guild: Apptivators Academy
+2026-03-08 13:05:56,098 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480202649688346716)
+2026-03-08 13:05:56,098 - GoonsClawbot - INFO -  - Channel: #general (ID: 1479944143613591764)
+2026-03-08 13:05:56,098 - GoonsClawbot - INFO -  - Channel: #gam3rgoons-clawbot (ID: 1479959164548546660)
+2026-03-08 13:05:56,098 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480202652561440851)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #resources (ID: 1480202834002841712)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #showcase (ID: 1480202834833309849)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #memes (ID: 1480202835667718218)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #career-growth (ID: 1480202836510904341)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #private-review-chambers (ID: 1480191656501186622)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #help-desk (ID: 1480202838784081930)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #code-reviews (ID: 1480202840424054824)
+2026-03-08 13:05:56,099 - GoonsClawbot - INFO -  - Channel: #quick-questions (ID: 1480202841170776066)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #learning-groups (ID: 1480202842622132225)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #web-dev (ID: 1480202844387672166)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #python (ID: 1480202845784506492)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #java-cpp (ID: 1480202846942138401)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #rust (ID: 1480202848250757303)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #ai-machine-learning (ID: 1480202849148211210)
+2026-03-08 13:05:56,100 - GoonsClawbot - INFO -  - Channel: #devops-cybersecurity (ID: 1480202850104512563)
+2026-03-08 13:05:56,374 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 13:05:56,374 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 13:14:31,233 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 13:14:31,309 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 13:14:31,343 - discord.client - INFO - logging in using static token
+2026-03-08 13:14:32,416 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 126c79cc6e5c72f5a74a0d1c9cfc20a5).
+2026-03-08 13:14:34,438 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO - Guild: Apptivators Academy
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480202649688346716)
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO -  - Channel: #general (ID: 1479944143613591764)
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO -  - Channel: #gam3rgoons-clawbot (ID: 1479959164548546660)
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480202652561440851)
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO -  - Channel: #resources (ID: 1480202834002841712)
+2026-03-08 13:14:34,439 - GoonsClawbot - INFO -  - Channel: #showcase (ID: 1480202834833309849)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #memes (ID: 1480202835667718218)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #career-growth (ID: 1480202836510904341)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #private-review-chambers (ID: 1480191656501186622)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #help-desk (ID: 1480202838784081930)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #code-reviews (ID: 1480202840424054824)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #quick-questions (ID: 1480202841170776066)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #learning-groups (ID: 1480202842622132225)
+2026-03-08 13:14:34,440 - GoonsClawbot - INFO -  - Channel: #web-dev (ID: 1480202844387672166)
+2026-03-08 13:14:34,441 - GoonsClawbot - INFO -  - Channel: #python (ID: 1480202845784506492)
+2026-03-08 13:14:34,441 - GoonsClawbot - INFO -  - Channel: #java-cpp (ID: 1480202846942138401)
+2026-03-08 13:14:34,441 - GoonsClawbot - INFO -  - Channel: #rust (ID: 1480202848250757303)
+2026-03-08 13:14:34,441 - GoonsClawbot - INFO -  - Channel: #ai-machine-learning (ID: 1480202849148211210)
+2026-03-08 13:14:34,441 - GoonsClawbot - INFO -  - Channel: #devops-cybersecurity (ID: 1480202850104512563)
+2026-03-08 13:14:48,314 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 13:14:48,315 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-08 13:25:46,189 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-08 13:25:46,190 - discord.client - WARNING - davey is not installed, voice will NOT be supported

@@ -1,3 +1,16 @@
+# 🛡️ Apptivators Academy: The Forge
+
+This repository serves as the definitive build plan and infrastructure for the **Apptivators Academy**. It integrates the **GoonsClawbot** with professional Discord community standards and legendary onboarding protocols.
+
+## ⚔️ Legendary Resources & Hubs
+- **[STARTUP_GUIDE.md](STARTUP_GUIDE.md)**: Deployment and bot initialization guide.
+- **[ONBOARDING_REFERENCE.md](ONBOARDING_REFERENCE.md)**: Visual journey of an Apptivator (⚔️🛡️🤖).
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)**: Security, malware protocols, and ethics.
+- **[COMMUNITY_ENGAGEMENT.md](COMMUNITY_ENGAGEMENT.md)**: Forum channel mastery and interaction tips.
+- **[DISCORD_HUB_RESOURCES.md](DISCORD_HUB_RESOURCES.md)**: Forked technical references and official Discord hubs.
+
+---
+
 # 🦞 OpenClaw — Personal AI Assistant
 
 <p align="center">
@@ -90,8 +103,8 @@ Switch channels (git + npm): `openclaw update --channel stable|beta|dev`.
 Details: [Development channels](https://docs.openclaw.ai/install/development-channels).
 
 ## From source (development)
-
-Prefer `pnpm` for builds from source. Bun is optional for running TypeScript directly.
+ 
+Prefer `pnpm` for builds from source. Bun is optional for running TypeScript directly. **Windows users require Git Bash** to execute build scripts.
 
 ```bash
 git clone https://github.com/openclaw/openclaw.git

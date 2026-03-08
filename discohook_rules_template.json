@@ -1,0 +1,35 @@
+{
+  "content": null,
+  "embeds": [
+    {
+      "title": "📜 Server Rules & Development Guidelines",
+      "description": "Welcome to the collaborative forge. By participating in this server, you agree to the following rules. Please read them carefully.",
+      "color": 3447003,
+      "fields": [
+        {
+          "name": "1️⃣ Open Source & Code Sharing Policy",
+          "value": "**Freely Shared Code:** This is a collaborative space. Any code viewable in public channels is shared freely for the community to learn from.\n\n**Private Collaboration:** Use Private Channels (available upon request) for proprietary work. \n\n**Documentation Requirement:** Share code via direct snippets, GitHub/GitLab links, or direct source links. All shared material must comply with its original host's ToS."
+        },
+        {
+          "name": "2️⃣ Malicious Content & Security",
+          "value": "**Zero Tolerance for Malware:** Code marked as Malicious by Bots or Staff will be instantly removed.\n\n**Strike System:** Posting malicious code, phishing, or deceptive scripts results in a formal Strike.\n\n**Immediate Review:** Flagged users are placed \"Under Review\" pending a full human audit."
+        },
+        {
+          "name": "3️⃣ Fair Review & Ban Appeals",
+          "value": "**Right to Explain:** You get one (1) chance to explain a serious violation for your case file.\n\n**Agreement Requirement:** A ban requires unanimous agreement from at least 3 Admins/Mods.\n\n**Full Disclosure:** Banned members receive their case file via email (valid email required). Failure to participate = automatic ban.\n\n**Data Destruction:** Upon final ban, all code submitted by the user is destroyed."
+        },
+        {
+          "name": "4️⃣ Community Conduct (The Human Element)",
+          "value": "**Zero Harassment:** No bullying, hate speech, or personal/political attacks. Keep personal worldviews private to ensure a creative environment.\n\n**Truthfulness:** Do not spread misinformation or \"Fake News.\"\n\n**The Coding Creed:**\n`01101011 01100101 01100101 01110000 00100000 01101001 01110100 00100000 01110011 01101001 01101101 01110000 01101100 01100101` (Keep it simple)\n`01101111 01101110 01100101 00100000 01100001 01110000 01110000 00100000 01100001 01110100 00100000 01100001 00100000 01110100 01101001 01101101 01100101` (One app at a time)"
+        }
+      ],
+      "footer": {
+        "text": "🛡️ The Guard: Treat all Ban Flags as False Positives first, but report Confirmed Malware immediately."
+      },
+      "thumbnail": {
+         "url": "https://i.imgur.com/example_logo.png" 
+      }
+    }
+  ],
+  "attachments": []
+}
