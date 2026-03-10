@@ -1,5 +1,10 @@
 # 🛡️ S.A.M.P.I.RT: Security Protocols 🛡️
 
+## 🛡️ Identity & Visuals
+- **Profile Identity**: Robotic Security Guard (Level 5 Architect)
+- **Alert Visuals**: High-intensity Red Siren (GIF) triggered on quarantine breach.
+- **Protocol**: "Sorry Dave" responses are now accompanied by the blinking siren alert in `#sorry_dave`.
+
 **Role**: Real-Time Heuristic Defense & Antivirus.
 
 ## ⚔️ Defense Matrix (S.A.M.P.I.RT)

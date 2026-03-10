@@ -27,6 +27,10 @@ STRIKE_LOG_PATH = "strike_log.json"
 SORRY_DAVE_MSG = "!!!---SORRY_DAVE_YOU_SHOULD_HAVE_KNOWN_WE_CAN'T_DO_THAT---!!!"
 SORRY_DAVE_CHANNEL_ID = 1480230319935324241 # Placeholder, update per build plan
 
+# VISUAL ASSETS (From Forge Assets)
+GUARD_AVATAR_URL = "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_ccdb2fa9-f41f-4ee6-8798-936616055dcc.png"
+SIREN_GIF_URL = "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_019fe84a-7182-4abc-96e9-b557045ddc1b.gif"
+
 class SAMPIRatBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -111,11 +115,18 @@ class SAMPIRatBot(commands.Bot):
             # Log to #sorry_dave
             log_channel = self.get_channel(SORRY_DAVE_CHANNEL_ID)
             if log_channel:
-                embed = discord.Embed(title="🛡️ SAMPI.RT Quarantine Alert", color=discord.Color.red())
-                embed.add_field(name="User", value=message.author.mention)
-                embed.add_field(name="Reason", value=reason)
-                embed.set_footer(text=f"Master Black Box - {datetime.utcnow()}")
-                await log_channel.send(embed=embed)
+                embed = discord.Embed(
+                    title="⚔️ S.A.M.P.I.RT: QUARANTINE BREACH 🛡️", 
+                    description=f"**{SORRY_DAVE_MSG}**",
+                    color=discord.Color.red()
+                )
+                embed.set_author(name="S.A.M.P.I.RT Security Engine", icon_url=GUARD_AVATAR_URL)
+                embed.add_field(name="🚨 INTRUDER", value=message.author.mention, inline=True)
+                embed.add_field(name="🛑 THREAT TYPE", value=reason, inline=True)
+                embed.set_thumbnail(url=SIREN_GIF_URL)
+                embed.set_footer(text="Master Black Box Protocol Active. Forge Security: 100%.")
+                embed.timestamp = datetime.utcnow()
+                await log_channel.send(content="🚨 **ALERT: SECURITY VIOLATION NEUTRALIZED** 🚨", embed=embed)
         except Exception as e:
             print(f"Quarantine Error: {e}")
 
