@@ -35,7 +35,7 @@ ALERT_ASSETS = {
     "CRITICAL": {
         "color": discord.Color.red(),
         "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/red_siren.gif",
-        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_ccdb2fa9-f41f-4ee6-8798-936616055dcc.png",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_red.png",
         "label": "🚨 CRITICAL: SECURITY BREACH NEUTRALIZED 🚨"
     },
     "HIGH": {
