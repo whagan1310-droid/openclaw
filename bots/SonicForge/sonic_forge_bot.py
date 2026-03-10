@@ -1,13 +1,16 @@
-# 🎵 SonicForge: The Music Bot (Implementation Placeholder)
-# This bot handles audio streaming and Forge ambience.
-
 import discord
 from discord.ext import commands
 
-class SonicForge(commands.Bot):
-    async def on_ready(self):
-        print(f"SonicForge (Music Bot) Online: {self.user}")
+# SonicForge: Academy Audio Engine
+# (Template for Future Expansion)
+
+intents = discord.Intents.default()
+bot = commands.Bot(command_prefix="!sonic_", intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f"SonicForge Online: {bot.user}")
 
 if __name__ == "__main__":
-    # Music engine logic here
+    # bot.run("TOKEN")
     pass

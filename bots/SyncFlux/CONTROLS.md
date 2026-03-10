@@ -1,18 +1,12 @@
-# 📺 SyncFlux: The Colab Bot 📺
+# 🎥 SyncFlux: YouTube & Colab Bot
+=================================
+SyncFlux is the Academy's media integration engine.
 
-**Role**: YouTube Integration & Community Colab Coordinator.
+### 🎮 Features
+- **YouTube Integration**: Share and track video performance.
+- **Colab Sharing**: Simplified link sharing for collaborative coding.
+- **Status Tracking**: Self-reports to the server status page.
 
-## 🚀 Features
-- **YouTube Alerts**: Real-time notifications for the-colab video uploads.
-- **Subscriber Perks**: Automated role assignment for verified subscribers.
-- **Colab Sync**: Link sharing and collaborative project tracking.
-
-## 🎮 Commands & Controls
-| Command | Restricted | Description |
-| :--- | :--- | :--- |
-| `/sync <yt_handle>` | No | Link your YouTube account to your Academy profile. |
-| `/colab <topic>` | No | Create a collaborative brainstorming thread. |
-| `/vids` | No | List the most recent tutorials from the-colab. |
-
----
-*"One App At A Time. Streaming the Academy."*
+### ⌨️ Commands
+- `!sync <url>`: Synchronize a new video or colab notebook.
+- `!flux_status`: Check health of the media pipeline.
