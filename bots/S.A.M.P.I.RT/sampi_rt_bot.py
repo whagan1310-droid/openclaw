@@ -35,21 +35,25 @@ ALERT_ASSETS = {
     "CRITICAL": {
         "color": discord.Color.red(),
         "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/red_siren.gif",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_ccdb2fa9-f41f-4ee6-8798-936616055dcc.png",
         "label": "🚨 CRITICAL: SECURITY BREACH NEUTRALIZED 🚨"
     },
     "HIGH": {
         "color": discord.Color.orange(),
         "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/amber_siren.gif",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_yellow.png",
         "label": "⚠️ HIGH: THREAT QUARANTINED ⚠️"
     },
     "MEDIUM": {
         "color": discord.Color.blue(),
         "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/blue_siren.gif",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_blue.png",
         "label": "🔹 MEDIUM: ANOMALY DETECTED 🔹"
     },
     "LOW": {
         "color": discord.Color.green(),
         "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/green_siren.gif",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_green.png",
         "label": "🟢 LOW: MINOR INFRACTION LOGGED 🟢"
     }
 }
@@ -156,10 +160,11 @@ class SAMPIRatBot(commands.Bot):
                     description=f"**{SORRY_DAVE_MSG}**",
                     color=alert["color"]
                 )
-                embed.set_author(name="S.A.M.P.I.RT Security Engine", icon_url=GUARD_AVATAR_URL)
+                # Dynamic Identity: Avatar matches Siren color
+                embed.set_author(name="S.A.M.P.I.RT Security Engine", icon_url=alert["avatar"])
                 embed.add_field(name="🚨 INTRUDER", value=message.author.mention, inline=True)
                 embed.add_field(name="🛑 THREAT TYPE", value=reason, inline=True)
-                # Dynamic Style: Siren chose by Bot according to level
+                # Dynamic Style: Fullscreen Siren chose by Bot according to level
                 embed.set_image(url=alert["siren"])
                 embed.set_footer(text=f"🛑 [VISUAL PULSE: {danger_level}] - Forge Secure 100% 🛑")
                 embed.timestamp = datetime.utcnow()
