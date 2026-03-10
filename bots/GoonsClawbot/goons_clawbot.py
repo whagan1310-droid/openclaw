@@ -971,6 +971,50 @@ async def ask(ctx, *, question: str):
 
 
 # ══════════════════════════════════════════════
+#  COMMAND: !review <attachment>
+# ══════════════════════════════════════════════
+@bot.command(name="review")
+async def review(ctx):
+    """Deep Audit: Upload a code file and get a professional Level 5 review."""
+    if not GOOGLE_API_KEY:
+        await ctx.send("❌ `GOOGLE_API_KEY` is not set in `.env`.")
+        return
+
+    if not ctx.message.attachments:
+        await ctx.send("📂 Please attach a file (e.g. .py, .js, .txt) for review.")
+        return
+
+    attachment = ctx.message.attachments[0]
+    async with ctx.typing():
+        try:
+            content = await attachment.read()
+            code_text = content.decode("utf-8")
+            
+            import google.generativeai as genai
+            genai.configure(api_key=GOOGLE_API_KEY)
+            
+            system_prompt = (
+                "You are the Lead Academy Architect. Perform a rigorous code review of the provided file. "
+                "Look for: Security vulnerabilities, Performance bottlenecks, Logic errors, and Style improvements. "
+                "Structure your reply with '### Audit Results' and '### Action Items'. Keep it technical.\n\n"
+            )
+            
+            model = genai.GenerativeModel("gemini-1.5-flash")
+            response = model.generate_content(system_prompt + f"File: {attachment.filename}\nContents:\n```\n{code_text}\n```")
+            answer = response.text
+            
+            # Message splitting
+            if len(answer) > 1900:
+                for i in range(0, len(answer), 1900):
+                    await ctx.send(answer[i : i + 1900])
+            else:
+                await ctx.send(answer)
+                
+        except Exception as e:
+            await ctx.send(f"❌ Review Error: {e}")
+
+
+# ══════════════════════════════════════════════
 #  RUN
 # ══════════════════════════════════════════════
 if __name__ == "__main__":
