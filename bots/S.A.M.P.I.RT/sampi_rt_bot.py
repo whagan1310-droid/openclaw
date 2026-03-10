@@ -45,17 +45,34 @@ class SAMPIRatBot(commands.Bot):
     async def update_vault(self):
         """Self-updating engine to fetch latest threat feeds."""
         async with aiohttp.ClientSession() as session:
-            for source in self.threat_vault.get("update_sources", []):
+            sources = self.threat_vault.get("update_sources", [])
+            for source in sources:
                 try:
                     async with session.get(source) as resp:
                         if resp.status == 200:
-                            # Logic to parse and merge lists
-                            pass 
+                            content = await resp.text()
+                            # Basic line-based domain list parsing
+                            new_domains = [line.strip() for line in content.splitlines() if line.strip() and not line.startswith("#")]
+                            
+                            # Merge into threat vault
+                            current_bad = set(self.threat_vault.get("known_bad_domains", []))
+                            current_bad.update(new_domains)
+                            self.threat_vault["known_bad_domains"] = list(current_bad)
+                            
+                            # Log update
+                            self.threat_vault["last_updated"] = datetime.utcnow().isoformat()
+                            
+                            with open(THREAT_VAULT_PATH, "w") as f:
+                                json.dump(self.threat_vault, f, indent=4)
+                                
+                            print(f"SAMPI.RT: Vault updated from {source}. Total domains: {len(current_bad)}")
                 except Exception as e:
-                    print(f"Update Error: {e}")
+                    print(f"Update Error fetching {source}: {e}")
 
     async def on_ready(self):
-        print(f"S.A.M.P.I.RT Bot Online: {self.user}")
+        print(f"S.A.M.I.RT Bot Online: {self.user}")
+        # Map the Log channel dynamically if possible, or use the configured ID
+        # For now, we use the ID from the build plan (Sorry Dave Quarantine)
         self.loop.create_task(self.vault_update_loop())
 
     async def vault_update_loop(self):

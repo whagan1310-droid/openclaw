@@ -139,6 +139,32 @@ intents.voice_states = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+# Persistence Helper
+JOINED_MEMBERS_FILE = os.path.join(BUILD_PLAN_DIR, "joined_members.json")
+
+def save_member_data(user_id, name, level_role):
+    data = {"members": []}
+    if os.path.exists(JOINED_MEMBERS_FILE):
+        with open(JOINED_MEMBERS_FILE, "r") as f:
+            data = json.load(f)
+    
+    # Check if already exists
+    for member in data["members"]:
+        if member["user_id"] == user_id:
+            member["level"] = level_role
+            member["updated_at"] = datetime.datetime.utcnow().isoformat()
+            break
+    else:
+        data["members"].append({
+            "user_id": user_id,
+            "name": name,
+            "level": level_role,
+            "joined_at": datetime.datetime.utcnow().isoformat()
+        })
+    
+    with open(JOINED_MEMBERS_FILE, "w") as f:
+        json.dump(data, f, indent=4)
+
 
 # ══════════════════════════════════════════════
 #  EVENT: on_ready
@@ -148,6 +174,7 @@ async def on_ready():
     # Register persistent views for long-term functionality
     bot.add_view(RoleSelectionView())
     bot.add_view(RulesAgreementView())
+    bot.add_view(JoinWalkthroughView())
     logger.info(f"GoonsClawbot Online: {bot.user.name} ({bot.user.id})")
     for guild in bot.guilds:
         logger.info(f"Guild: {guild.name}")
@@ -200,6 +227,13 @@ class RulesAgreementView(ui.View):
 
         try:
             await member.add_roles(role)
+            # Remove Initiate role
+            initiate_role = discord.utils.get(guild.roles, name=DEFAULT_JOIN_ROLE)
+            if initiate_role in member.roles:
+                await member.remove_roles(initiate_role)
+            
+            save_member_data(member.id, str(member), "Verified Apptivator")
+            
             legendary_quote = (
                 "\"\"One App At A Time.\" The forge is hot, the guards are at the gate, and the synthetic edge is sharp.\n"
                 "It has been an absolute pleasure building this fortress with you. The Academy is now yours to lead! ⚔️🛡️🤖\""
@@ -251,6 +285,10 @@ class RoleSelectionView(ui.View):
             existing_roles = [r for r in interaction.user.roles if r.name in SKILL_LEVEL_ROLES.values()]
             await interaction.user.remove_roles(*existing_roles)
             await interaction.user.add_roles(role)
+            
+            # Persistent storage
+            save_member_data(interaction.user.id, str(interaction.user), role_name)
+            
         except discord.Forbidden:
             await interaction.response.send_message("❌ I don't have permission to manage your roles. (Check my role position!)", ephemeral=True)
             return
@@ -262,12 +300,17 @@ class RoleSelectionView(ui.View):
             description="Please review our core protocols before joining the discussion.",
             color=0x3498DB
         )
+        # Use Brain Image for roles
+        rules_embed.set_image(url="https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/Brain1-5.png")
         
         if os.path.exists(template_path):
             with open(template_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                if "embeds" in data and len(data["embeds"]) > 0:
-                    rules_embed = discord.Embed.from_dict(data["embeds"][0])
+                try:
+                    data = json.load(f)
+                    if "embeds" in data and len(data["embeds"]) > 0:
+                        rules_embed = discord.Embed.from_dict(data["embeds"][0])
+                except:
+                    pass
 
         await interaction.response.send_message(
             content=f"✅ Role assigned: **{role_name}**\n\n**Final Step**: Review and agree to the rules below.",
@@ -295,6 +338,29 @@ class RoleSelectionView(ui.View):
     @ui.button(label="5", emoji="⚡", style=discord.ButtonStyle.secondary, custom_id="role_5")
     async def level_5(self, interaction: discord.Interaction, button: ui.Button):
         await self.assign_role(interaction, 5)
+
+class JoinWalkthroughView(ui.View):
+    """Entry point: The Join Page."""
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @ui.button(label="⚔️ Join Apptivators Academy", style=discord.ButtonStyle.success, custom_id="join_now")
+    async def join(self, interaction: discord.Interaction, button: ui.Button):
+        # Start the questionnaire
+        embed = discord.Embed(
+            title="🧠 Academy Skill Level Questionnaire",
+            description=(
+                "To better assist your growth, select the skill tier that best represents your current coding mastery.\n\n"
+                "**1** - Initial Trainee (Noob)\n"
+                "**2** - Project Starter (Beginner)\n"
+                "**3** - System Builder (Intermediate)\n"
+                "**4** - Architect / Senior (Expert)\n"
+                "**5** - Distinguished Engineer (God)"
+            ),
+            color=discord.Color.blue()
+        )
+        embed.set_thumbnail(url="https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/Brain1-5.png")
+        await interaction.response.send_message(embed=embed, view=RoleSelectionView(), ephemeral=True)
 
 
 # ══════════════════════════════════════════════
@@ -441,38 +507,23 @@ async def post_rules(ctx):
 @bot.command(name="welcome")
 @commands.has_permissions(administrator=True)
 async def welcome(ctx):
-    """Post the Call to Arms onboarding embed in the current channel."""
+    """Post the Join Page onboarding embed in the current channel."""
     embed = discord.Embed(
-        title="⚔️ A Call to Arms: One App at a Time ⚔️",
+        title="⚔️ WELCOME TO THE APPTIVATORS ACADEMY ⚔️",
         description=(
-            "Welcome to the front lines of creation. This community exists for one reason: "
-            "to fuel our passions and build a safer, better tomorrow through the power of code.\n\n"
-            "Whether you are a **Noob** or a **God**, your contribution is the engine of our collective growth."
+            "You are standing at the threshold of the forge. Beyond this gate lies a network of engineers, "
+            "creators, and mentors dedicated to building the future—one app at a time.\n\n"
+            "**Access is currently locked.** To enter the Academy, you must complete the onboarding walkthrough."
         ),
         color=0xE74C3C,
     )
+    embed.set_image(url="https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/Apptivators%20Academy.png")
     embed.add_field(
-        name="🛡️ Choose Your Level",
-        value=(
-            "**1. The Noob** — Trainee / Level 0\n"
-            "**2. The Beginner** — Junior Dev / Level 1\n"
-            "**3. The Intermediate** — Mid-Level / Level 2-3\n"
-            "**4. The Expert** — Senior / Staff / Architect\n"
-            "**5. The God** — Distinguished Engineer / Legend"
-        ),
-        inline=False,
+        name="🚀 Your Journey",
+        value="Click the button below to start your skill assessment and agree to the server protocols.",
+        inline=False
     )
-    embed.add_field(
-        name="💡 The Forge",
-        value="Every new language is a milestone. Share sites, docs, and repos. Value is Knowledge.",
-        inline=False,
-    )
-    embed.add_field(
-        name="🤖 The Synthetic Edge",
-        value="Our bots learn from us. Help refine them daily by identifying errors and improving logic.",
-        inline=False,
-    )
-    view = RoleSelectionView()
+    view = JoinWalkthroughView()
     await ctx.send(embed=embed, view=view)
     await ctx.message.delete()
 
@@ -617,6 +668,37 @@ async def initialize_onboarding(ctx):
     )
     final_embed.set_footer(text="The Forge is Live. ⚔️🛡️🤖💯")
     await status_msg.edit(content="🏁 **Master Initialization Complete.**", embed=final_embed)
+
+
+# ══════════════════════════════════════════════
+#  COMMAND: !list_members
+# ══════════════════════════════════════════════
+@bot.command(name="list_members")
+@commands.has_permissions(administrator=True)
+async def list_members(ctx):
+    """View the list of members who have completed onboarding."""
+    if not os.path.exists(JOINED_MEMBERS_FILE):
+        await ctx.send("📂 No member data found yet.")
+        return
+
+    with open(JOINED_MEMBERS_FILE, "r") as f:
+        data = json.load(f)
+
+    if not data["members"]:
+        await ctx.send("📂 The registry is currently empty.")
+        return
+
+    report = []
+    for m in data["members"][-20:]: # Last 20
+        report.append(f"• **{m['name']}** (`{m['user_id']}`) - Tier: {m['level']}")
+
+    embed = discord.Embed(
+        title="⚔️ Academy Member Registry",
+        description="\n".join(report),
+        color=discord.Color.blue()
+    )
+    embed.set_footer(text=f"Total Registered: {len(data['members'])}")
+    await ctx.send(embed=embed)
 
 
 # ══════════════════════════════════════════════
