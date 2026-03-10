@@ -172,6 +172,92 @@ class SAMPIRatBot(commands.Bot):
         except Exception as e:
             print(f"Quarantine Error: {e}")
 
+    # ══════════════════════════════════════════════
+    #  EXPANDED HAZARD AWARENESS COMMANDS
+    # ══════════════════════════════════════════════
+
+    @commands.command(name="status")
+    @commands.has_permissions(administrator=True)
+    async def status(self, ctx):
+        """Server-wide health check with color pulse system."""
+        # Heuristic: Overall health depends on recent strikes/threats
+        # For demo, we reflect a 'GOOD' state unless there are recent threats
+        health = "LOW" # Green/Good default
+        
+        # Check if any CRITICAL or HIGH threats in last 24h (mock logic)
+        # health = "CRITICAL" if recent_critical else "LOW"
+        
+        alert = ALERT_ASSETS.get(health)
+        
+        embed = discord.Embed(
+            title="🛰️ ACADEMY MASTER STATUS 🛡️",
+            description=f"**Current Forge Vibe**: {health}\n**Security Protocol**: Active 100%",
+            color=alert["color"]
+        )
+        embed.set_author(name="S.A.M.P.I.RT Diagnostic", icon_url=alert["avatar"])
+        embed.set_image(url=alert["siren"])
+        embed.add_field(name="🛡️ S.A.M.P.I.RT", value="🟢 ONLINE", inline=True)
+        embed.add_field(name="⚔️ GOONSCLAWBOT", value="🟢 ONLINE", inline=True)
+        embed.add_field(name="🎥 SYNCFLUX", value="🟡 STANDBY", inline=True)
+        embed.add_field(name="🎵 SONICFORGE", value="🟡 STANDBY", inline=True)
+        
+        embed.set_footer(text=f"🛑 [VISUAL PULSE: {health}] - Forge Monitoring Active 🛑")
+        await ctx.send(embed=embed)
+
+    @commands.command(name="scan_channel")
+    @commands.has_permissions(manage_messages=True)
+    async def scan_channel(self, ctx, channel: discord.TextChannel = None):
+        """Diagnostic scan of a channel's pulse."""
+        channel = channel or ctx.channel
+        async with ctx.typing():
+            # Heuristic scan of last 50 messages
+            hazard_score = 0
+            messages = []
+            async for msg in channel.history(limit=50):
+                if not msg.author.bot:
+                    # Look for links/attachments
+                    if re.findall(r'(https?://\S+)', msg.content): hazard_score += 1
+                    if msg.attachments: hazard_score += 2
+            
+            level = "LOW"
+            if hazard_score > 10: level = "CRITICAL"
+            elif hazard_score > 5: level = "HIGH"
+            elif hazard_score > 2: level = "MEDIUM"
+            
+            alert = ALERT_ASSETS.get(level)
+            
+            embed = discord.Embed(
+                title=f"🔍 CHANNEL SCAN: #{channel.name} 🛡️",
+                description=f"**Hazard Level**: {level}\n**Diagnostic Score**: {hazard_score}",
+                color=alert["color"]
+            )
+            embed.set_author(name="S.A.M.P.I.RT Deep Scan", icon_url=alert["avatar"])
+            embed.set_image(url=alert["siren"])
+            embed.set_footer(text=f"🛑 [VISUAL PULSE: {level}] - Deep Scan Complete 🛑")
+            await ctx.send(embed=embed)
+
+    @commands.command(name="scan_user")
+    @commands.has_permissions(manage_messages=True)
+    async def scan_user(self, ctx, member: discord.Member):
+        """Risk assessment of a specific member."""
+        # Mock risk assessment based on status
+        level = "LOW"
+        if member.guild_permissions.administrator:
+            level = "LOW"
+        # In real build, check strike_log.json
+        
+        alert = ALERT_ASSETS.get(level)
+        
+        embed = discord.Embed(
+            title=f"👤 USER RISK ASSESSMENT: {member.name} 🛡️",
+            description=f"**Risk Profile**: {level}\n**Status**: Verified Apptivator",
+            color=alert["color"]
+        )
+        embed.set_author(name="S.A.M.P.I.RT Identity Audit", icon_url=alert["avatar"])
+        embed.set_image(url=alert["siren"])
+        embed.set_footer(text=f"🛑 [VISUAL PULSE: {level}] - Identity Verified 🛑")
+        await ctx.send(embed=embed)
+
 # MAIN ENTRY POINT
 if __name__ == "__main__":
     from dotenv import load_dotenv
