@@ -996,10 +996,21 @@ class CollaboratorApprovalView(ui.View):
         else:
             await interaction.response.send_message("❌ Member not found.", ephemeral=True)
 
+class ApplyCollaboratorView(ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+    
+    @ui.button(label="Open Collaborator Application", style=discord.ButtonStyle.success, custom_id="btn_open_collab")
+    async def apply_button(self, interaction: discord.Interaction, button: ui.Button):
+        await interaction.response.send_modal(CollaboratorModal())
+
 @bot.command(name="apply_collaborator")
 async def apply_collaborator(ctx):
     """Open the collaborator application modal."""
-    await ctx.interaction.response.send_modal(CollaboratorModal()) if ctx.interaction else await ctx.send("Please use the Slash Command variation if available, or wait for GUI integration.")
+    if ctx.interaction:
+        await ctx.interaction.response.send_modal(CollaboratorModal())
+    else:
+        await ctx.send("Click the button below to open the application form:", view=ApplyCollaboratorView())
 
 # ══════════════════════════════════════════════
 #  COMMAND: !submit_repo [url]
@@ -1113,10 +1124,21 @@ class ModeratorReviewView(ui.View):
     @ui.button(label="Lvl 5", style=discord.ButtonStyle.primary)
     async def lvl5(self, interaction: discord.Interaction, button: ui.Button): await self.assign_mod(interaction, 5)
 
+class ApplyModView(ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+    
+    @ui.button(label="Open Moderator Entrance Exam", style=discord.ButtonStyle.danger, custom_id="btn_open_mod_exam")
+    async def apply_mod_button(self, interaction: discord.Interaction, button: ui.Button):
+        await interaction.response.send_modal(ModeratorExamModal())
+
 @bot.command(name="apply_mod")
 async def apply_mod(ctx):
     """Open the moderator entrance exam modal."""
-    await ctx.interaction.response.send_modal(ModeratorExamModal()) if ctx.interaction else await ctx.send("Please use the Slash Command variation.")
+    if ctx.interaction:
+        await ctx.interaction.response.send_modal(ModeratorExamModal())
+    else:
+        await ctx.send("Click the button below to open the Exam form:", view=ApplyModView())
 
 
 # ══════════════════════════════════════════════
