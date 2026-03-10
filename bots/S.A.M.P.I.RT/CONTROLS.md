@@ -2,8 +2,9 @@
 
 ## 🛡️ Identity & Visuals
 - **Profile Identity**: Robotic Security Guard (Level 5 Architect)
-- **Alert Visuals**: High-intensity Red Siren (GIF) triggered on quarantine breach.
-- **Protocol**: "Sorry Dave" responses are now accompanied by the blinking siren alert in `#sorry_dave`.
+- **Alert Visuals**: Fullscreen Red Siren (GIF) for maximum situational awareness.
+- **Visual Pulse**: Every alert includes a synchronized [VISUAL PULSE] metadata string for tracking.
+- **Protocol**: High-intensity quarantine alerts triggered in `#sorry_dave`.
 
 **Role**: Real-Time Heuristic Defense & Antivirus.
 

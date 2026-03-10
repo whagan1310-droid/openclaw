@@ -123,10 +123,11 @@ class SAMPIRatBot(commands.Bot):
                 embed.set_author(name="S.A.M.P.I.RT Security Engine", icon_url=GUARD_AVATAR_URL)
                 embed.add_field(name="🚨 INTRUDER", value=message.author.mention, inline=True)
                 embed.add_field(name="🛑 THREAT TYPE", value=reason, inline=True)
-                embed.set_thumbnail(url=SIREN_GIF_URL)
-                embed.set_footer(text="Master Black Box Protocol Active. Forge Security: 100%.")
+                # Fullscreen Alert Tweak: Move GIF to main image
+                embed.set_image(url=SIREN_GIF_URL)
+                embed.set_footer(text="🛑 [VISUAL PULSE ACTIVE] - Master Black Box Protocol - Forge Secure 100% 🛑")
                 embed.timestamp = datetime.utcnow()
-                await log_channel.send(content="🚨 **ALERT: SECURITY VIOLATION NEUTRALIZED** 🚨", embed=embed)
+                await log_channel.send(content="🚨 **CRITICAL: SECURITY BREACH NEUTRALIZED** 🚨", embed=embed)
         except Exception as e:
             print(f"Quarantine Error: {e}")
 
