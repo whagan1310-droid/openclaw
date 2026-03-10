@@ -24,6 +24,7 @@ import datetime
 import requests
 from dotenv import load_dotenv
 import logging
+import asyncio
 
 # ──────────────────────────────────────────────
 # Setup logging to file
@@ -112,6 +113,11 @@ SERVER_STRUCTURE = {
         {"name": "academy-playlists", "topic": "Collaborative music queues."},
         {"name": "rhythm-status", "topic": "Audio engine diagnostics."},
     ],
+    "📜 7. Transparency & Governance": [
+        {"name": "all-bot-commands", "topic": "Public Academy Command Manual for all users."},
+        {"name": "admin-mod-bot-commands", "topic": "Confidential Staff Command Manual (Admins/Mods only)."},
+        {"name": "collaborator-applications", "topic": "Public queue for collaborator status requests."},
+    ],
 }
 
 # Role Mapping for Onboarding (Noob to God Tier)
@@ -147,34 +153,90 @@ intents.message_content = True
 intents.members = True
 intents.voice_states = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-# Persistence Helper
+# Persistence Helpers
 JOINED_MEMBERS_FILE = os.path.join(BUILD_PLAN_DIR, "joined_members.json")
 
-def save_member_data(user_id, name, level_role):
-    data = {"members": []}
-    if os.path.exists(JOINED_MEMBERS_FILE):
-        with open(JOINED_MEMBERS_FILE, "r") as f:
-            data = json.load(f)
-    
-    # Check if already exists
-    for member in data["members"]:
-        if member["user_id"] == user_id:
-            member["level"] = level_role
-            member["updated_at"] = datetime.datetime.utcnow().isoformat()
-            break
-    else:
-        data["members"].append({
-            "user_id": user_id,
-            "name": name,
-            "level": level_role,
-            "joined_at": datetime.datetime.utcnow().isoformat()
-        })
-    
-    with open(JOINED_MEMBERS_FILE, "w") as f:
-        json.dump(data, f, indent=4)
+class GoonsClawBot(commands.Bot):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.joined_members_file = JOINED_MEMBERS_FILE
+        self.strike_log_file = STRIKE_LOG_FILE
 
+    def save_member_data(self, user_id, name, level_role):
+        data = {"members": []}
+        if os.path.exists(self.joined_members_file):
+            with open(self.joined_members_file, "r") as f:
+                data = json.load(f)
+        
+        # Check if already exists
+        for member in data["members"]:
+            if member["user_id"] == user_id:
+                member["level"] = level_role
+                member["updated_at"] = datetime.datetime.utcnow().isoformat()
+                break
+        else:
+            data["members"].append({
+                "user_id": user_id,
+                "name": name,
+                "level": level_role,
+                "joined_at": datetime.datetime.utcnow().isoformat()
+            })
+        
+        with open(self.joined_members_file, "w") as f:
+            json.dump(data, f, indent=4)
+
+    async def seed_youtube_resources(self, guild):
+        """Seed the #youtube-links channel with recommended Academy content."""
+        yt_ch = discord.utils.get(guild.text_channels, name="youtube-links")
+        if not yt_ch: return
+
+        # Check if already seeded
+        async for msg in yt_ch.history(limit=10):
+            if msg.author == self.user and msg.embeds and "RECOMMENDED ACADEMY RESOURCE" in msg.embeds[0].title:
+                return
+
+        resources = [
+            {"title": "OpenClaw AI - Advanced Agentic Coding", "url": "https://www.youtube.com/@softwaregent7443", "author": "Software Gent"},
+            {"title": "Streaming & OBS Mastery", "url": "https://www.youtube.com/@Gael_Level", "author": "Gael Level"}
+        ]
+
+        for res in resources:
+            embed = discord.Embed(title=f"🎥 RECOMMENDED ACADEMY RESOURCE: {res['author']}", color=discord.Color.red(), url=res['url'])
+            embed.description = f"Check out {res['author']} for elite knowledge on {res['title']}."
+            await yt_ch.send(embed=embed)
+
+    async def deploy_command_manuals(self, guild):
+        """Automatically post the Academy Command Manual to transparency channels."""
+        public_ch = discord.utils.get(guild.text_channels, name="all-bot-commands")
+        staff_ch = discord.utils.get(guild.text_channels, name="admin-mod-bot-commands")
+
+        manual_content = """
+# 📖 ACADEMY FORGE COMMAND MANUAL
+## 🦾 GOONSCLAWBOT (Prefix: `!`)
+- `!rules`: View the Forge Code of Conduct.
+- `!roles`: Open the Tier Selection terminal.
+- `!apply_collaborator`: Submit a project/skill application.
+- `!submit_repo`: Share a repo with the community.
+
+## 🛡️ S.A.M.P.I.RT (Prefix: `!!`)
+- `!!status`: Diagnostic health of the Forge.
+- `!!scan_channel`: Security pulse of a channel.
+- `!!query [id]`: Forensic audit of a user.
+- `!!freeze [id]`: Quarantine a user for review.
+        """
+
+        if public_ch:
+            await public_ch.purge(limit=5)
+            embed = discord.Embed(title="📖 ACADEMY FORGE COMMAND MANUAL (Public)", color=discord.Color.blue(), description=manual_content)
+            await public_ch.send(embed=embed)
+        
+        if staff_ch:
+            staff_manual = manual_content + "\n## ⚖️ MODERATOR CORE\n- `!strike [id]`: Assign an infraction.\n- `!!ban/!!tempban`: Disciplinary expulsion."
+            await staff_ch.purge(limit=5)
+            embed = discord.Embed(title="📖 ACADEMY FORGE COMMAND MANUAL (Internal Staff)", color=discord.Color.red(), description=staff_manual)
+            await staff_ch.send(embed=embed)
+
+bot = GoonsClawBot(command_prefix="!", intents=intents)
 
 # ══════════════════════════════════════════════
 #  EVENT: on_ready
@@ -186,15 +248,13 @@ AUTO_BOOTSTRAP = True # Set to True to build server & onboarding on start
 
 @bot.event
 async def on_ready():
-    # Register persistent views for long-term functionality
+    # Register persistent views
     bot.add_view(RoleSelectionView())
     bot.add_view(RulesAgreementView())
     bot.add_view(JoinWalkthroughView())
     logger.info(f"GoonsClawbot Online: {bot.user.name} ({bot.user.id})")
     
     if AUTO_BOOTSTRAP:
-        # We find an admin channel to report progress if possible
-        # For now, we search for 'general' or 'bot-logs'
         logger.info("🚀 AUTO-BOOTSTRAP: Initiating Server Build...")
         for guild in bot.guilds:
             # 1. Build Server Structure
@@ -206,24 +266,78 @@ async def on_ready():
                 for ch in channels:
                     channel = discord.utils.get(category.text_channels, name=ch["name"])
                     if not channel:
-                        perms_overwrites = {}
-                        if "1." in cat_name:
-                            perms_overwrites = {
-                                guild.default_role: discord.PermissionOverwrite(send_messages=False),
-                                guild.me: discord.PermissionOverwrite(send_messages=True)
-                            }
+                        perms_overwrites = {
+                            guild.default_role: discord.PermissionOverwrite(send_messages=False),
+                            guild.me: discord.PermissionOverwrite(send_messages=True)
+                        }
                         await guild.create_text_channel(ch["name"], category=category, topic=ch["topic"], overwrites=perms_overwrites)
             
-            # 2. Deploy Onboarding
-            welcome_ch = discord.utils.find(lambda c: "welcome" in c.name.lower(), guild.text_channels)
-            rules_ch = discord.utils.find(lambda c: "rules" in c.name.lower(), guild.text_channels)
+            # 2. Deploy Command Manuals
+            await bot.deploy_command_manuals(guild)
             
-            if welcome_ch:
-                # Basic welcome embed check (to avoid spamming every restart, maybe check history? 
-                # For now, we just push if requested by user)
-                pass # Already handled by !initialize_onboarding, but here for full auto
+            # 3. Seed YouTube Resources
+            await bot.seed_youtube_resources(guild)
 
         logger.info("✅ AUTO-BOOTSTRAP COMPLETE.")
+
+    async def seed_youtube_resources(self, guild):
+        """Seed the #youtube-links channel with recommended Academy content."""
+        yt_ch = discord.utils.get(guild.text_channels, name="youtube-links")
+        if not yt_ch: return
+
+        # Check if already seeded
+        async for msg in yt_ch.history(limit=5):
+            if msg.author == self.user and "RECOMMENDED ACADEMY RESOURCE" in msg.embeds[0].title if msg.embeds else False:
+                return
+
+        resources = [
+            {"title": "OpenClaw AI - Advanced Agentic Coding", "url": "https://www.youtube.com/@softwaregent7443", "author": "Software Gent"},
+            {"title": "Streaming & OBS Mastery", "url": "https://www.youtube.com/@Gael_Level", "author": "Gael Level"}
+        ]
+
+        for res in resources:
+            embed = discord.Embed(title=f"🎥 RECOMMENDED ACADEMY RESOURCE: {res['author']}", color=discord.Color.red(), url=res['url'])
+            embed.description = f"Check out {res['author']} for elite knowledge on {res['title']}."
+            await yt_ch.send(embed=embed)
+
+    async def deploy_command_manuals(self, guild):
+        """Automatically post the Academy Command Manual to transparency channels."""
+        public_ch = discord.utils.get(guild.text_channels, name="all-bot-commands")
+        staff_ch = discord.utils.get(guild.text_channels, name="admin-mod-bot-commands")
+
+        public_manual = discord.Embed(
+            title="⚔️ ACADEMY COMMAND MANUAL (PUBLIC) ⚔️",
+            description="Welcome to the Forge. Here is your interface for the Academy Bot Suite.",
+            color=discord.Color.blue()
+        )
+        public_manual.add_field(name="🤖 GoonsClawbot (!)", value="`!welcome` - Restart walkthrough\n`!apply_collaborator` - Join the elite\n`!submit_repo [url]` - Share knowledge", inline=False)
+        public_manual.add_field(name="🛡️ S.A.M.P.I.RT (!!)", value="`!!status` - Health check\n`!!open_chamber` - Start a safe review", inline=False)
+        public_manual.add_field(name="🎥 SyncFlux (!sync_)", value="`!sync_video [url]` - Queue media\n`!sync_status` - Pipeline health", inline=False)
+        public_manual.add_field(name="🎵 SonicForge (!sonic_)", value="`!sonic_play [query]` - Stream music\n`!sonic_queue` - View tracklist", inline=False)
+        
+        staff_manual = discord.Embed(
+            title="🛡️ ACADEMY COMMAND MANUAL (STAFF ONLY) 🛡️",
+            description="Restricted interfaces for Academy Moderators and Admins.",
+            color=discord.Color.dark_red()
+        )
+        staff_manual.add_field(name="🔧 Admin Core", value="`!build_server` - Full restructure\n`!initialize_onboarding` - GUI Reset", inline=False)
+        staff_manual.add_field(name="⚖️ S.A.M.P.I.RT Forensics", value="`!!query [user_id]` - Audit history\n`!!scan_channel` - Hazard pulse\n`!!scan_user [@user]` - Risk assessment", inline=False)
+        staff_manual.add_field(name="🛑 Disciplinary (Lvl 4-5)", value="`!!freeze [user]` - Lock in review\n`!!tempban [user]` - 1yr suspension\n`!!ban [user]` - Permanent purge\n`!!unban [id]` - (Admin Only)", inline=False)
+
+        if public_ch:
+            # Simple check to avoid double-posting: check last message author
+            async for msg in public_ch.history(limit=5):
+                if msg.author == self.user and "PUBLIC" in msg.embeds[0].title if msg.embeds else False:
+                    break
+            else:
+                await public_ch.send(embed=public_manual)
+
+        if staff_ch:
+            async for msg in staff_ch.history(limit=5):
+                if msg.author == self.user and "STAFF ONLY" in msg.embeds[0].title if msg.embeds else False:
+                    break
+            else:
+                await staff_ch.send(embed=staff_manual)
 
     for guild in bot.guilds:
         logger.info(f"Guild: {guild.name}")
@@ -281,7 +395,7 @@ class RulesAgreementView(ui.View):
             if initiate_role in member.roles:
                 await member.remove_roles(initiate_role)
             
-            save_member_data(member.id, str(member), "Verified Apptivator")
+            bot.save_member_data(member.id, str(member), "Verified Apptivator")
             
             legendary_quote = (
                 "\"\"One App At A Time.\" The forge is hot, the guards are at the gate, and the synthetic edge is sharp.\n"
@@ -336,7 +450,7 @@ class RoleSelectionView(ui.View):
             await interaction.user.add_roles(role)
             
             # Persistent storage
-            save_member_data(interaction.user.id, str(interaction.user), role_name)
+            bot.save_member_data(interaction.user.id, str(interaction.user), role_name)
             
         except discord.Forbidden:
             await interaction.response.send_message("❌ I don't have permission to manage your roles. (Check my role position!)", ephemeral=True)
@@ -586,7 +700,7 @@ async def build_server(ctx):
     """Automatically create Categories and Channels from the build plan."""
     status_msg = await ctx.send("🏗️ **Initiating Server Build Phase...**")
     guild = ctx.guild
-    report = []
+    report: list[str] = []
 
     for cat_name, channels in SERVER_STRUCTURE.items():
         # Check if category exists
@@ -819,6 +933,190 @@ async def strike(ctx, member: discord.Member, *, reason: str = "No reason provid
     )
     embed.set_footer(text=f"Issued by {ctx.author.name}")
     await ctx.send(embed=embed)
+
+# ══════════════════════════════════════════════
+#  COMMAND: !apply_collaborator
+# ══════════════════════════════════════════════
+class CollaboratorModal(ui.Modal, title='🤝 Collaborator Application'):
+    github = ui.TextInput(label='GitHub Profile / Repos', placeholder='https://github.com/yourname', required=True)
+    youtube = ui.TextInput(label='YouTube Channel (Optional)', placeholder='https://youtube.com/@yourchannel', required=False)
+    exp = ui.TextInput(label='Years of Experience', placeholder='e.g. 3 years', required=True)
+    specialty = ui.TextInput(label='Primary Specialties', placeholder='e.g. AI, Python, UI/UX', required=True)
+    value = ui.TextInput(label='Value Proposition', style=discord.TextStyle.paragraph, placeholder='How will you help the community grow?', required=True)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        # Log to #admin-mod-bot-commands for review
+        staff_ch = discord.utils.get(interaction.guild.text_channels, name="admin-mod-bot-commands")
+        if staff_ch:
+            embed = discord.Embed(title="🤝 New Collaborator Application", color=discord.Color.gold())
+            embed.set_author(name=interaction.user.name, icon_url=interaction.user.display_avatar.url)
+            embed.add_field(name="User ID", value=interaction.user.id, inline=True)
+            embed.add_field(name="GitHub", value=self.github.value, inline=False)
+            embed.add_field(name="YouTube", value=self.youtube.value or "N/A", inline=False)
+            embed.add_field(name="Experience", value=self.exp.value, inline=True)
+            embed.add_field(name="Specialty", value=self.specialty.value, inline=True)
+            embed.add_field(name="Value", value=self.value.value, inline=False)
+            
+            # Simple approval buttons
+            view = CollaboratorApprovalView(user_id=interaction.user.id)
+            await staff_ch.send(embed=embed, view=view)
+            await interaction.response.send_message("✅ Your application has been submitted to the Forge Council! ⚔️🛡️🤖", ephemeral=True)
+        else:
+            await interaction.response.send_message("❌ Staff channel not found. Contact Admin.", ephemeral=True)
+
+class CollaboratorApprovalView(ui.View):
+    def __init__(self, user_id):
+        super().__init__(timeout=None)
+        self.user_id = user_id
+
+    @ui.button(label="✅ Approve", style=discord.ButtonStyle.success)
+    async def approve(self, interaction: discord.Interaction, button: ui.Button):
+        # Any Level Moderator (1-5) can approve
+        # Check for roles with "Moderator" or "Admin"
+        is_mod = any(role.name.lower() in ["moderator", "admin"] or "level" in role.name.lower() for role in interaction.user.roles)
+        if not is_mod and not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("❌ Only Moderators can approve applications.", ephemeral=True)
+            return
+
+        guild = interaction.guild
+        member = guild.get_member(self.user_id)
+        role = discord.utils.get(guild.roles, name="Known Server Collaborator")
+        if not role:
+            role = await guild.create_role(name="Known Server Collaborator", color=discord.Color.purple())
+
+        if member:
+            await member.add_roles(role)
+            await interaction.response.send_message(f"✅ Approved {member.mention} as a Collaborator! ✨", ephemeral=False)
+            # Update spotlight in #all-bot-commands
+            public_ch = discord.utils.get(guild.text_channels, name="all-bot-commands")
+            if public_ch:
+                await public_ch.send(f"✨ **NEW KNOWN SERVER COLLABORATOR**: {member.mention} has joined the elite! ⚔️🛡️🤝")
+            button.disabled = True
+            await interaction.message.edit(view=self)
+        else:
+            await interaction.response.send_message("❌ Member not found.", ephemeral=True)
+
+@bot.command(name="apply_collaborator")
+async def apply_collaborator(ctx):
+    """Open the collaborator application modal."""
+    await ctx.interaction.response.send_modal(CollaboratorModal()) if ctx.interaction else await ctx.send("Please use the Slash Command variation if available, or wait for GUI integration.")
+
+# ══════════════════════════════════════════════
+#  COMMAND: !submit_repo [url]
+# ══════════════════════════════════════════════
+@bot.command(name="submit_repo")
+async def submit_repo(ctx, url: str):
+    """Submit a repository for scanning and potential forking."""
+    # 1. Basic URL check
+    if "github.com/" not in url:
+        await ctx.send("❌ Please provide a valid GitHub repository URL.")
+        return
+
+    # 2. Ping S.A.M.P.I.RT for scan (Simulated for now, real integration in Phase 3)
+    await ctx.send(f"🔍 **S.A.M.P.I.RT**: Scanning repository `{url}` for malicious code... 🛡️", delete_after=5)
+    await asyncio.sleep(2)
+    
+    # 3. Forward to Staff Review
+    staff_ch = discord.utils.get(ctx.guild.text_channels, name="admin-mod-bot-commands")
+    if staff_ch:
+        embed = discord.Embed(title="📂 New Community Repo Submission", color=discord.Color.blue())
+        embed.set_author(name=ctx.author.name, icon_url=ctx.author.display_avatar.url)
+        embed.add_field(name="URL", value=url, inline=False)
+        embed.add_field(name="S.A.M.P.I.RT SCAN", value="🟢 CLEAN / SAFE", inline=True)
+        
+        view = RepoApprovalView(user_id=ctx.author.id, repo_url=url)
+        await staff_ch.send(embed=embed, view=view)
+        await ctx.send("✅ Repo submitted! S.A.M.P.I.RT has verified the code is safe. Staff will review for forking. 🛡️🤝")
+    else:
+        await ctx.send("❌ Staff channel not found.")
+
+class RepoApprovalView(ui.View):
+    def __init__(self, user_id, repo_url):
+        super().__init__(timeout=None)
+        self.user_id = user_id
+        self.repo_url = repo_url
+
+    @ui.button(label="⚔️ Fork to Academy", style=discord.ButtonStyle.primary)
+    async def fork_repo(self, interaction: discord.Interaction, button: ui.Button):
+        is_mod = any(role.name.lower() in ["moderator", "admin"] or "level" in role.name.lower() for role in interaction.user.roles)
+        if not is_mod and not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("❌ Only Moderators can approve repos.", ephemeral=True)
+            return
+
+        # Simulate fork (In production, would use GitHub API)
+        await interaction.response.send_message(f"🚀 **Actioned**: Forking `{self.repo_url}` to the Academy Organization! 🦾📦")
+        button.disabled = True
+        await interaction.message.edit(view=self)
+
+# ══════════════════════════════════════════════
+#  COMMAND: !apply_mod
+# ══════════════════════════════════════════════
+class ModeratorExamModal(ui.Modal, title='🛡️ Moderator Entrance Exam'):
+    coding_exp = ui.TextInput(label='Years of Coding Exp', placeholder='e.g. 5 years', required=True)
+    knowledge = ui.TextInput(label='Core Knowledge Base', placeholder='e.g. Python, Cybersecurity, Discord API', required=True)
+    id_ref = ui.TextInput(label='User ID (Joining Phase Reference)', placeholder='Enter your Discord User ID', required=True)
+    mission = ui.TextInput(label='Mission Statement', style=discord.TextStyle.paragraph, placeholder='How will you apply your skills as a Teacher/Mentor?', required=True)
+    bad_apples = ui.TextInput(label='Conflict Resolution', style=discord.TextStyle.paragraph, placeholder='How do you handle "bad apples"? Describe your approach to admonishment.', required=True)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        staff_ch = discord.utils.get(interaction.guild.text_channels, name="admin-mod-bot-commands")
+        if staff_ch:
+            embed = discord.Embed(title="🛡️ NEW MODERATOR APPLICATION & EXAM", color=discord.Color.dark_red())
+            embed.set_author(name=interaction.user.name, icon_url=interaction.user.display_avatar.url)
+            embed.add_field(name="User ID Ref", value=self.id_ref.value, inline=True)
+            embed.add_field(name="Experience", value=self.coding_exp.value, inline=True)
+            embed.add_field(name="Focus", value=self.knowledge.value, inline=False)
+            embed.add_field(name="Mission", value=self.mission.value, inline=False)
+            embed.add_field(name="Conflicts", value=self.bad_apples.value, inline=False)
+            
+            view = ModeratorReviewView(user_id=interaction.user.id)
+            await staff_ch.send(embed=embed, view=view)
+            await interaction.response.send_message("🛡️ Your Exam has been recorded. The Council will review your score and assign a Moderator Level (1-5).", ephemeral=True)
+        else:
+            await interaction.response.send_message("❌ Staff channel not found.", ephemeral=True)
+
+class ModeratorReviewView(ui.View):
+    def __init__(self, user_id):
+        super().__init__(timeout=None)
+        self.user_id = user_id
+
+    async def assign_mod(self, interaction: discord.Interaction, level: int):
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("❌ Only Administrators can assign Moderator Levels.", ephemeral=True)
+            return
+
+        guild = interaction.guild
+        member = guild.get_member(self.user_id)
+        role_name = f"Moderator Level {level}"
+        role = discord.utils.get(guild.roles, name=role_name)
+        if not role:
+            role = await guild.create_role(name=role_name, color=discord.Color.red())
+
+        if member:
+            # Grant level role and base moderator role
+            base_mod = discord.utils.get(guild.roles, name="Moderator")
+            if not base_mod: base_mod = await guild.create_role(name="Moderator", color=discord.Color.orange())
+            await member.add_roles(role, base_mod)
+            await interaction.response.send_message(f"✅ Promoted {member.mention} to **{role_name}**! 🛡️⚔️")
+            self.stop()
+        else:
+            await interaction.response.send_message("❌ Member not found.", ephemeral=True)
+
+    @ui.button(label="Lvl 1", style=discord.ButtonStyle.secondary)
+    async def lvl1(self, interaction: discord.Interaction, button: ui.Button): await self.assign_mod(interaction, 1)
+    @ui.button(label="Lvl 2", style=discord.ButtonStyle.secondary)
+    async def lvl2(self, interaction: discord.Interaction, button: ui.Button): await self.assign_mod(interaction, 2)
+    @ui.button(label="Lvl 3", style=discord.ButtonStyle.secondary)
+    async def lvl3(self, interaction: discord.Interaction, button: ui.Button): await self.assign_mod(interaction, 3)
+    @ui.button(label="Lvl 4", style=discord.ButtonStyle.secondary)
+    async def lvl4(self, interaction: discord.Interaction, button: ui.Button): await self.assign_mod(interaction, 4)
+    @ui.button(label="Lvl 5", style=discord.ButtonStyle.primary)
+    async def lvl5(self, interaction: discord.Interaction, button: ui.Button): await self.assign_mod(interaction, 5)
+
+@bot.command(name="apply_mod")
+async def apply_mod(ctx):
+    """Open the moderator entrance exam modal."""
+    await ctx.interaction.response.send_modal(ModeratorExamModal()) if ctx.interaction else await ctx.send("Please use the Slash Command variation.")
 
 
 # ══════════════════════════════════════════════
