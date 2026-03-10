@@ -29,7 +29,30 @@ SORRY_DAVE_CHANNEL_ID = 1480230319935324241 # Placeholder, update per build plan
 
 # VISUAL ASSETS (From Forge Assets)
 GUARD_AVATAR_URL = "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_ccdb2fa9-f41f-4ee6-8798-936616055dcc.png"
-SIREN_GIF_URL = "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_019fe84a-7182-4abc-96e9-b557045ddc1b.gif"
+
+# DYNAMIC ALERT MAPPING (Categorized by Hazard Level)
+ALERT_ASSETS = {
+    "CRITICAL": {
+        "color": discord.Color.red(),
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/red_siren.gif",
+        "label": "🚨 CRITICAL: SECURITY BREACH NEUTRALIZED 🚨"
+    },
+    "HIGH": {
+        "color": discord.Color.orange(),
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/amber_siren.gif",
+        "label": "⚠️ HIGH: THREAT QUARANTINED ⚠️"
+    },
+    "MEDIUM": {
+        "color": discord.Color.blue(),
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/blue_siren.gif",
+        "label": "🔹 MEDIUM: ANOMALY DETECTED 🔹"
+    },
+    "LOW": {
+        "color": discord.Color.green(),
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/green_siren.gif",
+        "label": "🟢 LOW: MINOR INFRACTION LOGGED 🟢"
+    }
+}
 
 class SAMPIRatBot(commands.Bot):
     def __init__(self, *args, **kwargs):
@@ -112,22 +135,35 @@ class SAMPIRatBot(commands.Bot):
             await message.delete()
             await message.channel.send(f"{message.author.mention} {SORRY_DAVE_MSG}", delete_after=10)
             
+            # Heuristic Danger Level Determination
+            danger_level = "CRITICAL"
+            if reason in ["SPAM", "PROFANITY"]:
+                danger_level = "LOW"
+            elif "Domain" in reason or "PHISHING" in reason:
+                danger_level = "HIGH"
+            elif "VIRUS" in reason or "MALWARE" in reason:
+                danger_level = "CRITICAL"
+            else:
+                danger_level = "MEDIUM"
+
+            alert = ALERT_ASSETS.get(danger_level, ALERT_ASSETS["CRITICAL"])
+
             # Log to #sorry_dave
             log_channel = self.get_channel(SORRY_DAVE_CHANNEL_ID)
             if log_channel:
                 embed = discord.Embed(
-                    title="⚔️ S.A.M.P.I.RT: QUARANTINE BREACH 🛡️", 
+                    title=f"⚔️ S.A.M.P.I.RT: {danger_level} BREACH 🛡️", 
                     description=f"**{SORRY_DAVE_MSG}**",
-                    color=discord.Color.red()
+                    color=alert["color"]
                 )
                 embed.set_author(name="S.A.M.P.I.RT Security Engine", icon_url=GUARD_AVATAR_URL)
                 embed.add_field(name="🚨 INTRUDER", value=message.author.mention, inline=True)
                 embed.add_field(name="🛑 THREAT TYPE", value=reason, inline=True)
-                # Fullscreen Alert Tweak: Move GIF to main image
-                embed.set_image(url=SIREN_GIF_URL)
-                embed.set_footer(text="🛑 [VISUAL PULSE ACTIVE] - Master Black Box Protocol - Forge Secure 100% 🛑")
+                # Dynamic Style: Siren chose by Bot according to level
+                embed.set_image(url=alert["siren"])
+                embed.set_footer(text=f"🛑 [VISUAL PULSE: {danger_level}] - Forge Secure 100% 🛑")
                 embed.timestamp = datetime.utcnow()
-                await log_channel.send(content="🚨 **CRITICAL: SECURITY BREACH NEUTRALIZED** 🚨", embed=embed)
+                await log_channel.send(content=f"🚨 **{alert['label']}** 🚨", embed=embed)
         except Exception as e:
             print(f"Quarantine Error: {e}")
 
