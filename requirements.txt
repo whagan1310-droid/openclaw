@@ -3,4 +3,3 @@ requests
 python-dotenv
 aiohttp
 google-generativeai
-yara-python

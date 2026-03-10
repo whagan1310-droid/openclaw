@@ -1,0 +1,97 @@
+2026-03-10 00:45:16,630 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-10 00:45:16,631 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-10 00:45:16,633 - discord.client - INFO - logging in using static token
+2026-03-10 00:45:17,952 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 9005afd062b07768fe880ad53cec208b).
+2026-03-10 00:45:22,660 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-10 00:45:22,660 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-10 00:45:22,663 - discord.client - INFO - logging in using static token
+2026-03-10 00:45:23,432 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 022a2b0b18129412b8244a0edf92dabb).
+2026-03-10 00:45:25,451 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-10 00:45:25,451 - GoonsClawbot - INFO - 🚀 AUTO-BOOTSTRAP: Initiating Server Build...
+2026-03-10 00:45:25,451 - GoonsClawbot - INFO - 🏗️ Building structure for Apptivators Academy...
+2026-03-10 00:45:26,878 - discord.client - ERROR - Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "C:\Users\Gam3rGoon\AppData\Roaming\Python\Python314\site-packages\discord\client.py", line 508, in _run_event
+    await coro(*args, **kwargs)
+  File "D:\Clawbot\bots/GoonsClawbot/goons_clawbot.py", line 215, in on_ready
+    await guild.create_text_channel(ch["name"], category=category, topic=ch["topic"], overwrites=perms_overwrites)
+  File "C:\Users\Gam3rGoon\AppData\Roaming\Python\Python314\site-packages\discord\guild.py", line 1531, in create_text_channel
+    data = await self._create_channel(
+                 ~~~~~~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Gam3rGoon\AppData\Roaming\Python\Python314\site-packages\discord\guild.py", line 1381, in _create_channel
+    raise TypeError('overwrites parameter expects a dict.')
+TypeError: overwrites parameter expects a dict.
+2026-03-10 00:45:36,394 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-10 00:45:36,395 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-10 00:45:36,397 - discord.client - INFO - logging in using static token
+2026-03-10 00:45:37,232 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 5e26812470e838168143fad18c02955e).
+2026-03-10 00:45:39,243 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-10 00:45:39,244 - GoonsClawbot - INFO - 🚀 AUTO-BOOTSTRAP: Initiating Server Build...
+2026-03-10 00:45:39,244 - GoonsClawbot - INFO - 🏗️ Building structure for Apptivators Academy...
+2026-03-10 00:45:39,245 - discord.client - ERROR - Ignoring exception in on_ready
+Traceback (most recent call last):
+  File "C:\Users\Gam3rGoon\AppData\Roaming\Python\Python314\site-packages\discord\client.py", line 508, in _run_event
+    await coro(*args, **kwargs)
+  File "D:\Clawbot\bots/GoonsClawbot/goons_clawbot.py", line 215, in on_ready
+    await guild.create_text_channel(ch["name"], category=category, topic=ch["topic"], overwrites=perms_overwrites)
+  File "C:\Users\Gam3rGoon\AppData\Roaming\Python\Python314\site-packages\discord\guild.py", line 1531, in create_text_channel
+    data = await self._create_channel(
+                 ~~~~~~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Gam3rGoon\AppData\Roaming\Python\Python314\site-packages\discord\guild.py", line 1381, in _create_channel
+    raise TypeError('overwrites parameter expects a dict.')
+TypeError: overwrites parameter expects a dict.
+2026-03-10 00:46:05,912 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2026-03-10 00:46:05,912 - discord.client - WARNING - davey is not installed, voice will NOT be supported
+2026-03-10 00:46:05,915 - discord.client - INFO - logging in using static token
+2026-03-10 00:46:06,956 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 7ccec2cbf274b5060418a96d08aa91e6).
+2026-03-10 00:46:08,980 - GoonsClawbot - INFO - GoonsClawbot Online: GoonsClawbot (1479950208015269929)
+2026-03-10 00:46:08,981 - GoonsClawbot - INFO - 🚀 AUTO-BOOTSTRAP: Initiating Server Build...
+2026-03-10 00:46:08,981 - GoonsClawbot - INFO - 🏗️ Building structure for Apptivators Academy...
+2026-03-10 00:46:11,186 - GoonsClawbot - INFO - ✅ AUTO-BOOTSTRAP COMPLETE.
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO - Guild: Apptivators Academy
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO -  - Channel: #general (ID: 1479944143613591764)
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480202649688346716)
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO -  - Channel: #gam3rgoons-clawbot (ID: 1479959164548546660)
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480202652561440851)
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO -  - Channel: #softwaregent (ID: 1480702509558267995)
+2026-03-10 00:46:11,187 - GoonsClawbot - INFO -  - Channel: #gael-level (ID: 1480702734461173971)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #resources (ID: 1480202834002841712)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #showcase (ID: 1480202834833309849)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #memes (ID: 1480202835667718218)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #career-growth (ID: 1480202836510904341)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #private-review-chambers (ID: 1480191656501186622)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #help-desk (ID: 1480202838784081930)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #code-reviews (ID: 1480202840424054824)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #quick-questions (ID: 1480202841170776066)
+2026-03-10 00:46:11,188 - GoonsClawbot - INFO -  - Channel: #learning-groups (ID: 1480202842622132225)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #web-dev (ID: 1480202844387672166)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #python (ID: 1480202845784506492)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #java-cpp (ID: 1480202846942138401)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #rust (ID: 1480202848250757303)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #ai-machine-learning (ID: 1480202849148211210)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #devops-cybersecurity (ID: 1480202850104512563)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #welcome (ID: 1480788653579178127)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #rules (ID: 1480788654417903650)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #announcements (ID: 1480788655093321781)
+2026-03-10 00:46:11,189 - GoonsClawbot - INFO -  - Channel: #roles (ID: 1480788656640888935)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #github-shared-links (ID: 1480788658121347112)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #youtube-links (ID: 1480788836052242452)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #colab-notebooks (ID: 1480788838879203339)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #sync-status (ID: 1480788840611446988)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #the-forge-audio (ID: 1480788842683564103)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #academy-playlists (ID: 1480788843547590706)
+2026-03-10 00:46:11,190 - GoonsClawbot - INFO -  - Channel: #rhythm-status (ID: 1480788844231004233)

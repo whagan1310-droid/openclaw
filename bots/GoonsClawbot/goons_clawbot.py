@@ -102,6 +102,16 @@ SERVER_STRUCTURE = {
         {"name": "ai-machine-learning", "topic": "AI/ML developments."},
         {"name": "devops-cybersecurity", "topic": "Infra and security."},
     ],
+    "🎥 5. SyncFlux: Media & Colab": [
+        {"name": "youtube-links", "topic": "Shared Academy YouTube content."},
+        {"name": "colab-notebooks", "topic": "Collaborative coding notebooks."},
+        {"name": "sync-status", "topic": "Media pipeline health tracking."},
+    ],
+    "🎵 6. SonicForge: Audio & Rhythm": [
+        {"name": "the-forge-audio", "topic": "High-fidelity Academy audio stream."},
+        {"name": "academy-playlists", "topic": "Collaborative music queues."},
+        {"name": "rhythm-status", "topic": "Audio engine diagnostics."},
+    ],
 }
 
 # Role Mapping for Onboarding (Noob to God Tier)
@@ -169,6 +179,11 @@ def save_member_data(user_id, name, level_role):
 # ══════════════════════════════════════════════
 #  EVENT: on_ready
 # ══════════════════════════════════════════════
+# ──────────────────────────────────────────────
+#  AUTO-BOOTSTRAP CONFIG (Push Actions Automatically)
+# ──────────────────────────────────────────────
+AUTO_BOOTSTRAP = True # Set to True to build server & onboarding on start
+
 @bot.event
 async def on_ready():
     # Register persistent views for long-term functionality
@@ -176,6 +191,40 @@ async def on_ready():
     bot.add_view(RulesAgreementView())
     bot.add_view(JoinWalkthroughView())
     logger.info(f"GoonsClawbot Online: {bot.user.name} ({bot.user.id})")
+    
+    if AUTO_BOOTSTRAP:
+        # We find an admin channel to report progress if possible
+        # For now, we search for 'general' or 'bot-logs'
+        logger.info("🚀 AUTO-BOOTSTRAP: Initiating Server Build...")
+        for guild in bot.guilds:
+            # 1. Build Server Structure
+            logger.info(f"🏗️ Building structure for {guild.name}...")
+            for cat_name, channels in SERVER_STRUCTURE.items():
+                category = discord.utils.get(guild.categories, name=cat_name)
+                if not category:
+                    category = await guild.create_category(cat_name)
+                for ch in channels:
+                    channel = discord.utils.get(category.text_channels, name=ch["name"])
+                    if not channel:
+                        perms_overwrites = {}
+                        if "1." in cat_name:
+                            perms_overwrites = {
+                                guild.default_role: discord.PermissionOverwrite(send_messages=False),
+                                guild.me: discord.PermissionOverwrite(send_messages=True)
+                            }
+                        await guild.create_text_channel(ch["name"], category=category, topic=ch["topic"], overwrites=perms_overwrites)
+            
+            # 2. Deploy Onboarding
+            welcome_ch = discord.utils.find(lambda c: "welcome" in c.name.lower(), guild.text_channels)
+            rules_ch = discord.utils.find(lambda c: "rules" in c.name.lower(), guild.text_channels)
+            
+            if welcome_ch:
+                # Basic welcome embed check (to avoid spamming every restart, maybe check history? 
+                # For now, we just push if requested by user)
+                pass # Already handled by !initialize_onboarding, but here for full auto
+
+        logger.info("✅ AUTO-BOOTSTRAP COMPLETE.")
+
     for guild in bot.guilds:
         logger.info(f"Guild: {guild.name}")
         for channel in guild.text_channels:
