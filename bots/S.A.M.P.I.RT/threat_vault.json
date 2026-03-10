@@ -1,0 +1,28 @@
+{
+  "known_bad_domains": [
+    "discord-nitro.com",
+    "discordapp.click",
+    "dlscord.gift",
+    "discorcl.gift",
+    "discord-gifts.com",
+    "grabify.link",
+    "iplogger.org",
+    "blasze.com",
+    "bit.ly/malicious-link-placeholder",
+    "free-nitro-generator.xyz"
+  ],
+  "malicious_hashes": [],
+  "false_flags": [
+    "github.com",
+    "stackoverflow.com",
+    "opencode.ai",
+    "photopea.com",
+    "google.com"
+  ],
+  "update_sources": [
+    "https://raw.githubusercontent.com/WalshDev/Discord-bad-domains/main/domains.txt",
+    "https://raw.githubusercontent.com/Dogino/Discord-Phishing-URLs/main/scam-urls.txt",
+    "https://raw.githubusercontent.com/nikolaischunk/discord-phishing-links/main/domain-list.json"
+  ],
+  "last_updated": "2026-03-09T23:00:00Z"
+}

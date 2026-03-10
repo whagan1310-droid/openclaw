@@ -8,8 +8,8 @@ Before building out the server, it is important to verify your requested mechani
 
 ---
 
-## 2. Bot Ecosystem & Integrations (Free Tier Focused)
-The following bots run the server's automation, security, and UI enhancements. Tasks are **delegated** between bots to reduce load, avoid conflicts, and keep things free.
+## 2. Bot Ecosystem & Integrations (Standing Alone)
+The server now runs primarily on **GoonsClawbot**, a custom solution designed for maximum autonomy. All core mechanics have been unified to ensure a seamless Forge experience.
 
 ### Bot Task Delegation Table
 
@@ -20,10 +20,10 @@ The following bots run the server's automation, security, and UI enhancements. T
 | Strike System (`!strike`) | **GoonsClawbot** (custom) | Logs to `strike_log.json` |
 | Rules Embed (`!post_rules`) | **GoonsClawbot** (custom) | Reads `discohook_rules_template.json` |
 | Private Channel Purge (`!purge_text` + auto) | **GoonsClawbot** (custom) | Blackout Rule enforcement |
-| Welcome Embeds & Greetings | **Sapphire** ✅ on server | Configure via [sapph.xyz](https://sapph.xyz) dashboard |
-| Reaction Roles (#roles) | **Sapphire** ✅ on server | Dropdown menus or emoji reactions |
-| Join Roles (auto-assign on join) | **Sapphire** ✅ on server | Auto-assign a "New Member" role |
-| Auto-Moderation & Logging | **Sapphire** ✅ on server | AI-powered mod (beta), audit logs |
+| Welcome Embeds & Greetings | **GoonsClawbot** | Automated DMs + Public Welcome |
+| Reaction Roles (#roles) | **GoonsClawbot** | Persistent `RoleSelectionView` |
+| Join Roles (auto-assign on join) | **GoonsClawbot** | Auto-assign "Initiate" role |
+| Auto-Moderation & Logging | **GoonsClawbot** | **The Sentinel** logic + local logging |
 | Backup Moderation & Auto-Responders | **Dyno** | Custom commands, auto-mod rules |
 | Music Playback | **FredBoat / Jockie Music / Uzox** | Free YouTube/SoundCloud/Spotify |
 | Channel Archiving & Knowledge Base | **ArchiveMind** | Searchable archive of inactive channels |
@@ -48,31 +48,8 @@ GoonsClawbot runs as its **own separate Discord application** so it does not con
 7.  Copy the generated invite URL and use it to add GoonsClawbot to your server.
 8.  Restart the bot: `d:\Clawbot\.venv\Scripts\python.exe d:\Clawbot\goons_clawbot.py`
 
-### Sapphire Bot Configuration Guide (Already on Server)
-Sapphire handles UI-heavy and event-driven tasks so GoonsClawbot can focus on AI, GitHub, and security. Configure Sapphire via its web dashboard at **[sapph.xyz](https://sapph.xyz)**.
-
-#### Welcome Embeds (offloads `!welcome` from GoonsClawbot)
-1.  Go to **sapph.xyz > Your Server > Modules > Welcome**.
-2.  Enable the module and select the `#welcome` channel.
-3.  Customize the embed: set the title to `⚔️ Welcome to Apptivators Academy!`, add the Call to Arms description, set the color, and add a thumbnail/banner image.
-4.  Enable variables like `{user.mention}`, `{server.name}`, and `{server.memberCount}`.
-
-#### Reaction Roles (for #roles channel)
-1.  Go to **sapph.xyz > Your Server > Modules > Reaction Roles**.
-2.  Create a new reaction role panel targeting the `#roles` channel.
-3.  Add roles for Skill Levels and Interests:
-    *   1️⃣ The Noob (Level 0) — 2️⃣ The Beginner (Level 1) — 3️⃣ The Intermediate (Level 2-3) — 4️⃣ The Expert (Level 4) — 5️⃣ The God (Level 5)
-    *   🐍 Python — ☕ Java — 🌐 Web Dev — 🤖 AI/ML — 🔒 Cybersecurity — 🎓 Mentor
-4.  Choose display mode: **Dropdown Menu** (cleanest) or **Button Reactions**.
-
-#### Auto-Moderation & Logging
-1.  Go to **sapph.xyz > Your Server > Modules > Auto-Moderation**.
-2.  Enable filters for spam, excessive mentions, invite links, and (beta) AI-powered language detection.
-3.  Under **Modules > Logging**, enable audit logs and select an admin-only `#mod-logs` channel.
-
-#### Join Roles
-1.  Go to **sapph.xyz > Your Server > Modules > Join Roles**.
-2.  Assign a default "New Member" role on join so users get baseline permissions while they complete onboarding.
+### Academy Security: The Sentinel
+GoonsClawbot now integrates **The Sentinel**, an internal auto-moderation engine that handles link filtering, spam protection, and behavior protocols without external dependencies.
 
 
 ---
@@ -80,10 +57,10 @@ Sapphire handles UI-heavy and event-driven tasks so GoonsClawbot can focus on AI
 ## 3. Server Channel Structure
 
 ### Welcome & Information
-*   `#welcome`: Landing page. Features the Best FREE UI Logo Banner and the "Call To Arms" onboarding embed (via Sapphire).
-*   `#rules`: Contains server guidelines. **Edits applied**: Removed the word "Email" (replaced with "User Id"). Mentions the strict anti-malware policy (Instant Snapshot of User IDs). Includes instructions on how Admins/Mods/Bots can open private channels for false-positive reporting.
-*   `#announcements`: A space for admins to post important updates, new events, or community milestones.
-*   `#roles`: Self-assignable tags (e.g., "Python Learner," "Mentor") via Sapphire reaction roles.
+*   `#welcome`: Landing page. Features the Best FREE UI Logo Banner and the custom "Call To Arms" welcome triggers.
+*   `#rules`: Contains server guidelines. Verified Apptivators must agree here.
+*   `#announcements`: A space for admins to post important updates.
+*   `#roles`: Self-assignable ranks via the `RoleSelectionView`.
 *   `#github-shared-links`: Public channel hooked to GitHub Webhooks. *Integrated with: https://github.com/whagan1310-droid?tab=repositories*
 
 > **📚 Main Server GitHub Repo Library (Public):** [Apptivators Academy](https://github.com/whagan1310-droid/Apptivators-Academy) — This is the community's central code repository. All shared code, assets, snippets, and collaborative projects live here.

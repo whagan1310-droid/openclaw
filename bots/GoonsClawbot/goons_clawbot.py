@@ -9,6 +9,7 @@ Architecture:
 - GitHub Integration: Automated pushing of blueprints and logs.
 - AI Mentorship: Integrated Gemini 1.5 Flash for code reviews.
 - Security: Automated blackout rules for private chambers.
+- The Sentinel: Basic auto-moderation for link spam and filtering.
 
 Forge Theme: ⚔️🛡️🤖💯
 """
@@ -103,14 +104,27 @@ SERVER_STRUCTURE = {
     ],
 }
 
-# Role Mapping for Onboarding
+# Role Mapping for Onboarding (Noob to God Tier)
 SKILL_LEVEL_ROLES = {
-    1: "The Noob (Level 0)",
-    2: "The Beginner (Level 1)",
-    3: "The Intermediate (Level 2-3)",
-    4: "The Expert (Level 4)",
-    5: "The God (Level 5)",
+    1: "The Noob (Level 0-1)",
+    2: "The Beginner (Level 2)",
+    3: "The Intermediate (Level 3-7)",
+    4: "The Expert (Level 8-12)",
+    5: "The God (Level 13-∞)",
 }
+
+# New Channel IDs from START HERE.txt
+CHANNEL_IDS = {
+    "welcome": 1480230319935324241,
+    "rules": 1480229817356910755,
+    "definitions": 1480229121958215681,
+    "roles": 1480234013481242735,
+    "call_to_arms": 1480229956419322017,
+    "general": 1479944143613591764,
+}
+
+# Default role for all new members
+DEFAULT_JOIN_ROLE = "Initiate"
 
 # Strike log stored locally as JSON
 STRIKE_LOG_FILE = os.path.join(BUILD_PLAN_DIR, "strike_log.json")
@@ -144,6 +158,19 @@ async def on_ready():
 # ══════════════════════════════════════════════
 #  UI COMPONENTS: Onboarding Views
 # ══════════════════════════════════════════════
+
+# ──────────────────────────────────────────────
+#  UI: Agreement Modal
+# ──────────────────────────────────────────────
+class AgreementModal(ui.Modal, title='⚔️ Mandatory Agreement ⚔️'):
+    answer = ui.TextInput(label='Type "I AGREE" in all caps', placeholder='I AGREE', min_length=7, max_length=7)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        if self.answer.value == "I AGREE":
+            view = RulesAgreementView()
+            await view._grant_access(interaction)
+        else:
+            await interaction.response.send_message('❌ Verification failed. You must type "I AGREE" exactly.', ephemeral=True)
 
 class RulesAgreementView(ui.View):
     """
@@ -186,7 +213,7 @@ class RulesAgreementView(ui.View):
 
     @ui.button(label="⚔️ I Agree to All Server Rules", style=discord.ButtonStyle.success, custom_id="agree_rules")
     async def agree(self, interaction: discord.Interaction, button: ui.Button):
-        await self._grant_access(interaction)
+        await interaction.response.send_modal(AgreementModal())
 
     @ui.button(emoji="⚔️", style=discord.ButtonStyle.secondary, custom_id="finalize_1")
     async def finalize_1(self, interaction: discord.Interaction, button: ui.Button):
@@ -276,30 +303,57 @@ class RoleSelectionView(ui.View):
 @bot.event
 async def on_member_join(member):
     """
-    LEGENDARY ENTRANCE: Greet new members with the Call to Arms.
-    Points them to #rules and #roles to begin their journey.
+    LEGENDARY ENTRANCE: Greet new members, assign Initiate role, and post public welcome.
     """
     logger.info(f"New Member Joined: {member.name} ({member.id})")
+    guild = member.guild
+    
+    # 1. Assign "Initiate" role
+    role = discord.utils.get(guild.roles, name=DEFAULT_JOIN_ROLE)
+    if not role:
+        try:
+            role = await guild.create_role(name=DEFAULT_JOIN_ROLE, color=discord.Color.light_grey(), reason="Default join role")
+        except discord.Forbidden:
+            logger.error("Cannot create Initiate role - check permissions!")
+    
+    if role:
+        try:
+            await member.add_roles(role)
+            logger.info(f"Assigned {DEFAULT_JOIN_ROLE} to {member.name}")
+        except discord.Forbidden:
+            logger.warning(f"Could not assign {DEFAULT_JOIN_ROLE} to {member.name}")
+
+    # 2. Public Welcome to #welcome
+    welcome_ch = discord.utils.find(lambda c: "welcome" in c.name.lower(), guild.text_channels)
+    if welcome_ch:
+        embed = discord.Embed(
+            title="⚔️ A New Apptivator Arrives!",
+            description=f"Welcome {member.mention} to the forge! Report to **#rules** and claim your rank in **#roles**. ⚔️🛡️🤖💯",
+            color=discord.Color.gold()
+        )
+        await welcome_ch.send(embed=embed)
+
+    # 3. Private DM Greeting (Call to Arms)
     try:
         legendary_quote = (
             "\"\"One App At A Time.\" The forge is hot, the guards are at the gate, and the synthetic edge is sharp.\n"
             "It has been an absolute pleasure building this fortress with you. The Academy is now yours to lead! ⚔️🛡️🤖\""
         )
-        embed = discord.Embed(
-            title="⚔️ A New Apptivator Arrives!",
+        dm_embed = discord.Embed(
+            title="⚔️ Your Academy Journey Begins!",
             description=(
                 f"Welcome, **{member.name}**, to the **Apptivators Academy**.\n\n"
-                "Your journey begins here. To unlock the full power of the forge:\n"
+                "To unlock the full power of the forge:\n"
                 "1️⃣ Review the immutable laws in **#rules**\n"
                 "2️⃣ Claim your rank and specialty in **#roles**\n\n"
                 f"{legendary_quote}"
             ),
             color=discord.Color.blue(),
         )
-        embed.set_thumbnail(url=member.display_avatar.url)
-        embed.set_footer(text="The Forge Awaits. ⚔️🛡️🤖💯")
+        dm_embed.set_thumbnail(url=member.display_avatar.url)
+        dm_embed.set_footer(text="The Forge Awaits. ⚔️🛡️🤖💯")
         
-        await member.send(embed=embed)
+        await member.send(embed=dm_embed)
         logger.info(f"Welcome DM sent to {member.name}")
     except discord.Forbidden:
         logger.warning(f"Could not send welcome DM to {member.name} (DMs disabled).")
@@ -324,6 +378,34 @@ async def on_voice_state_update(member, before, after):
                     print(f"[Total Purge] Deleted: {channel_name}")
                 except (discord.Forbidden, discord.HTTPException) as e:
                     print(f"[Total Purge] Error: {e}")
+
+
+# ══════════════════════════════════════════════
+#  EVENT: The Sentinel (Auto-Mod)
+# ══════════════════════════════════════════════
+@bot.event
+async def on_message(message):
+    """
+    THE SENTINEL: Scan for link spam and basic violations.
+    """
+    if message.author.bot:
+        return
+
+    # Basic Link Prevention (Example Sentinel Logic)
+    banned_links = ["discord.gg/", "invite.gg/"] # Prevent external server invites
+    content = message.content.lower()
+    
+    if any(link in content for link in banned_links):
+        if not message.author.guild_permissions.administrator:
+            try:
+                await message.delete()
+                await message.channel.send(f"⚠️ {message.author.mention}, external invite links are forbidden by **The Law**. ⚔️🛡️🤖", delete_after=5)
+                logger.info(f"Sentinel: Deleted invite link from {message.author}")
+                return
+            except Exception as e:
+                logger.error(f"Sentinel Error: {e}")
+
+    await bot.process_commands(message)
 
 
 # ══════════════════════════════════════════════
