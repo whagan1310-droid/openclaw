@@ -210,31 +210,40 @@ class GoonsClawBot(commands.Bot):
         public_ch = discord.utils.get(guild.text_channels, name="all-bot-commands")
         staff_ch = discord.utils.get(guild.text_channels, name="admin-mod-bot-commands")
 
-        manual_content = """
-# 📖 ACADEMY FORGE COMMAND MANUAL
-## 🦾 GOONSCLAWBOT (Prefix: `!`)
-- `!rules`: View the Forge Code of Conduct.
-- `!roles`: Open the Tier Selection terminal.
-- `!apply_collaborator`: Submit a project/skill application.
-- `!submit_repo`: Share a repo with the community.
-
-## 🛡️ S.A.M.P.I.RT (Prefix: `!!`)
-- `!!status`: Diagnostic health of the Forge.
-- `!!scan_channel`: Security pulse of a channel.
-- `!!query [id]`: Forensic audit of a user.
-- `!!freeze [id]`: Quarantine a user for review.
-        """
+        public_manual = discord.Embed(
+            title="⚔️ ACADEMY COMMAND MANUAL (PUBLIC) ⚔️",
+            description="Welcome to the Forge. Here is your interface for the Academy Bot Suite.",
+            color=discord.Color.blue()
+        )
+        public_manual.add_field(name="🤖 GoonsClawbot (!)", value="`!welcome` - Restart walkthrough\n`!apply_collaborator` - Join the elite\n`!submit_repo [url]` - Share knowledge", inline=False)
+        public_manual.add_field(name="🛡️ S.A.M.P.I.RT (!!)", value="`!!status` - Health check\n`!!open_chamber` - Start a safe review", inline=False)
+        public_manual.add_field(name="🎥 SyncFlux (!sync_)", value="`!sync_video [url]` - Queue media\n`!sync_status` - Pipeline health", inline=False)
+        public_manual.add_field(name="🎵 SonicForge (!sonic_)", value="`!sonic_play [query]` - Stream music\n`!sonic_queue` - View tracklist", inline=False)
+        
+        staff_manual = discord.Embed(
+            title="🛡️ ACADEMY COMMAND MANUAL (STAFF ONLY) 🛡️",
+            description="Restricted interfaces for Academy Moderators and Admins.",
+            color=discord.Color.dark_red()
+        )
+        staff_manual.add_field(name="🔧 Admin Core", value="`!build_server` - Full restructure\n`!initialize_onboarding` - GUI Reset", inline=False)
+        staff_manual.add_field(name="⚖️ S.A.M.P.I.RT Forensics", value="`!!query [id]` - Forensic audit of a user\n`!!scan_channel` - Security pulse of a channel\n`!!status` - Diagnostic health of the Forge", inline=False)
+        staff_manual.add_field(name="🛑 MODERATOR CORE", value="`!!freeze [id]` - Quarantine a user for review\n`!strike [id]` - Assign an infraction\n`!!ban` / `!!tempban` - Disciplinary expulsion", inline=False)
 
         if public_ch:
-            await public_ch.purge(limit=5)
-            embed = discord.Embed(title="📖 ACADEMY FORGE COMMAND MANUAL (Public)", color=discord.Color.blue(), description=manual_content)
-            await public_ch.send(embed=embed)
-        
+            async for msg in public_ch.history(limit=10):
+                if msg.author == self.user and msg.embeds and "PUBLIC" in msg.embeds[0].title:
+                    await msg.edit(embed=public_manual)
+                    break
+            else:
+                await public_ch.send(embed=public_manual)
+
         if staff_ch:
-            staff_manual = manual_content + "\n## ⚖️ MODERATOR CORE\n- `!strike [id]`: Assign an infraction.\n- `!!ban/!!tempban`: Disciplinary expulsion."
-            await staff_ch.purge(limit=5)
-            embed = discord.Embed(title="📖 ACADEMY FORGE COMMAND MANUAL (Internal Staff)", color=discord.Color.red(), description=staff_manual)
-            await staff_ch.send(embed=embed)
+            async for msg in staff_ch.history(limit=10):
+                if msg.author == self.user and msg.embeds and "STAFF ONLY" in msg.embeds[0].title:
+                    await msg.edit(embed=staff_manual)
+                    break
+            else:
+                await staff_ch.send(embed=staff_manual)
 
 bot = GoonsClawBot(command_prefix="!", intents=intents)
 
@@ -244,7 +253,7 @@ bot = GoonsClawBot(command_prefix="!", intents=intents)
 # ──────────────────────────────────────────────
 #  AUTO-BOOTSTRAP CONFIG (Push Actions Automatically)
 # ──────────────────────────────────────────────
-AUTO_BOOTSTRAP = True # Set to True to build server & onboarding on start
+AUTO_BOOTSTRAP = False # Set to True to build server & onboarding on start
 
 @bot.event
 async def on_ready():
@@ -280,64 +289,7 @@ async def on_ready():
 
         logger.info("✅ AUTO-BOOTSTRAP COMPLETE.")
 
-    async def seed_youtube_resources(self, guild):
-        """Seed the #youtube-links channel with recommended Academy content."""
-        yt_ch = discord.utils.get(guild.text_channels, name="youtube-links")
-        if not yt_ch: return
 
-        # Check if already seeded
-        async for msg in yt_ch.history(limit=5):
-            if msg.author == self.user and "RECOMMENDED ACADEMY RESOURCE" in msg.embeds[0].title if msg.embeds else False:
-                return
-
-        resources = [
-            {"title": "OpenClaw AI - Advanced Agentic Coding", "url": "https://www.youtube.com/@softwaregent7443", "author": "Software Gent"},
-            {"title": "Streaming & OBS Mastery", "url": "https://www.youtube.com/@Gael_Level", "author": "Gael Level"}
-        ]
-
-        for res in resources:
-            embed = discord.Embed(title=f"🎥 RECOMMENDED ACADEMY RESOURCE: {res['author']}", color=discord.Color.red(), url=res['url'])
-            embed.description = f"Check out {res['author']} for elite knowledge on {res['title']}."
-            await yt_ch.send(embed=embed)
-
-    async def deploy_command_manuals(self, guild):
-        """Automatically post the Academy Command Manual to transparency channels."""
-        public_ch = discord.utils.get(guild.text_channels, name="all-bot-commands")
-        staff_ch = discord.utils.get(guild.text_channels, name="admin-mod-bot-commands")
-
-        public_manual = discord.Embed(
-            title="⚔️ ACADEMY COMMAND MANUAL (PUBLIC) ⚔️",
-            description="Welcome to the Forge. Here is your interface for the Academy Bot Suite.",
-            color=discord.Color.blue()
-        )
-        public_manual.add_field(name="🤖 GoonsClawbot (!)", value="`!welcome` - Restart walkthrough\n`!apply_collaborator` - Join the elite\n`!submit_repo [url]` - Share knowledge", inline=False)
-        public_manual.add_field(name="🛡️ S.A.M.P.I.RT (!!)", value="`!!status` - Health check\n`!!open_chamber` - Start a safe review", inline=False)
-        public_manual.add_field(name="🎥 SyncFlux (!sync_)", value="`!sync_video [url]` - Queue media\n`!sync_status` - Pipeline health", inline=False)
-        public_manual.add_field(name="🎵 SonicForge (!sonic_)", value="`!sonic_play [query]` - Stream music\n`!sonic_queue` - View tracklist", inline=False)
-        
-        staff_manual = discord.Embed(
-            title="🛡️ ACADEMY COMMAND MANUAL (STAFF ONLY) 🛡️",
-            description="Restricted interfaces for Academy Moderators and Admins.",
-            color=discord.Color.dark_red()
-        )
-        staff_manual.add_field(name="🔧 Admin Core", value="`!build_server` - Full restructure\n`!initialize_onboarding` - GUI Reset", inline=False)
-        staff_manual.add_field(name="⚖️ S.A.M.P.I.RT Forensics", value="`!!query [user_id]` - Audit history\n`!!scan_channel` - Hazard pulse\n`!!scan_user [@user]` - Risk assessment", inline=False)
-        staff_manual.add_field(name="🛑 Disciplinary (Lvl 4-5)", value="`!!freeze [user]` - Lock in review\n`!!tempban [user]` - 1yr suspension\n`!!ban [user]` - Permanent purge\n`!!unban [id]` - (Admin Only)", inline=False)
-
-        if public_ch:
-            # Simple check to avoid double-posting: check last message author
-            async for msg in public_ch.history(limit=5):
-                if msg.author == self.user and "PUBLIC" in msg.embeds[0].title if msg.embeds else False:
-                    break
-            else:
-                await public_ch.send(embed=public_manual)
-
-        if staff_ch:
-            async for msg in staff_ch.history(limit=5):
-                if msg.author == self.user and "STAFF ONLY" in msg.embeds[0].title if msg.embeds else False:
-                    break
-            else:
-                await staff_ch.send(embed=staff_manual)
 
     for guild in bot.guilds:
         logger.info(f"Guild: {guild.name}")
@@ -1311,7 +1263,7 @@ async def ask(ctx, *, question: str):
             )
 
             # Try Flash first (better for free tier), then fallback
-            model_names = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"]
+            model_names = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
             last_error = None
 
             for model_name in model_names:
@@ -1368,7 +1320,7 @@ async def review(ctx):
                 "Structure your reply with '### Audit Results' and '### Action Items'. Keep it technical.\n\n"
             )
             
-            model = genai.GenerativeModel("gemini-1.5-flash")
+            model = genai.GenerativeModel("gemini-1.5-flash") # Fallback to stable free-tier model
             response = model.generate_content(system_prompt + f"File: {attachment.filename}\nContents:\n```\n{code_text}\n```")
             answer = response.text
             

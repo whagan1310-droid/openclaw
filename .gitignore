@@ -1,17 +1,9 @@
-# Secrets & environment files
-.env
-
-# Python
+node_modules
 __pycache__/
 *.pyc
-.venv/
-
-# IDE
-.vscode/
+*.pyo
+*.pyd
+*.log
+.env
 .idea/
-
-# OS
-Thumbs.db
-Desktop.ini
-.DS_Store
-node_modules
+.vscode/
