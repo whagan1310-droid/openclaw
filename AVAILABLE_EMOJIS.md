@@ -13,23 +13,9 @@ You can use standard, built-in Discord emojis. When placed by themselves or at t
 - **MEDIUM**: 🛡️ (`:shield:`) or 🔵 (`:blue_circle:`)
 - **LOW**: 🟢 (`:green_circle:`) or ✅ (`:white_check_mark:`)
 
-### Option 2: Custom Animated GIFs (Highly Recommended)
-To preserve the exact colored glowing siren visual you had originally:
-1. Upload the `red_siren.gif`, `amber_siren.gif`, `blue_siren.gif`, and `green_siren.gif` files as **Custom Emojis** in your Discord Server Settings.
-2. Once uploaded, type `\:red_siren:` in your Discord chat to get the exact ID (it will look like `<a:red_siren:123456789012345>`).
-3. Copy those exact IDs into the S.A.M.P.I.RT alert map here:
+### Option 2: High-Resolution Siren Globes (Now Default)
+Since the GitHub token returned a permissions error for the private repository, we have successfully replaced the old private GIFs with **High-Resolution Static Siren Globes** directly in the public `openclaw` repository!
 
-```python
-# In bots/S.A.M.P.I.RT/sampi_rt_bot.py
-ALERT_ASSETS = {
-    "CRITICAL": {
-        "color": discord.Color.red(),
-        "siren": "<a:red_siren:YOUR_RED_ID_HERE>", # Replace with custom emoji ID
-        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_crimson.png",
-        "label": "🚨 CRITICAL: SECURITY BREACH NEUTRALIZED 🚨"
-    },
-    # ... update HIGH, MEDIUM, LOW equivalently
-}
-```
+These large, high-quality siren images (`siren_red_large.png`, `siren_amber_large.png`, `siren_blue_large.png`, `siren_green_large.png`) are already injected into `sampi_rt_bot.py` and require no further setup on your part.
 
-By using Custom Emojis inside the `siren` field of the embed thumbnail/image, Discord will render the animated GIFs directly from your server's emoji library in high resolution!
+*If you ever want them to animate again, upload the original GIFs to Discord as Custom Emojis and map their Discord `<\:emoji_name:id>` tags into the `siren` field in `sampi_rt_bot.py`.*

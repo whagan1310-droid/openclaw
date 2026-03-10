@@ -34,25 +34,25 @@ GUARD_AVATAR_URL = "https://raw.githubusercontent.com/whagan1310-droid/openclaw/
 ALERT_ASSETS = {
     "CRITICAL": {
         "color": discord.Color.red(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_red.png",
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_red_large.png",
         "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_crimson.png",
         "label": "🚨 CRITICAL: SECURITY BREACH NEUTRALIZED 🚨"
     },
     "HIGH": {
         "color": discord.Color.orange(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_amber.png",
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_amber_large.png",
         "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_crimson.png",
         "label": "⚠️ HIGH: THREAT QUARANTINED ⚠️"
     },
     "MEDIUM": {
         "color": discord.Color.blue(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_blue.png",
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_blue_large.png",
         "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_green.png",
         "label": "🛡️ MEDIUM: SUSPICIOUS ACTIVITY FLAGGED 🛡️"
     },
     "LOW": {
         "color": discord.Color.green(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_green.png",
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_green_large.png",
         "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_green.png",
         "label": "✅ LOW: ROUTINE SCAN COMPLETED ✅"
     }
