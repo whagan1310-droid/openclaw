@@ -464,7 +464,7 @@ class RoleSelectionView(ui.View):
             color=0x3498DB
         )
         # Use Brain Image for roles
-        rules_embed.set_image(url="https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/Brain1-5.png")
+        rules_embed.set_image(url="https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/openclaw-logo-text-dark.png")
         
         if os.path.exists(template_path):
             with open(template_path, "r", encoding="utf-8") as f:
@@ -522,7 +522,7 @@ class JoinWalkthroughView(ui.View):
             ),
             color=discord.Color.blue()
         )
-        embed.set_thumbnail(url="https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/Brain1-5.png")
+        embed.set_thumbnail(url="https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/openclaw-logo-text-dark.png")
         await interaction.response.send_message(embed=embed, view=RoleSelectionView(), ephemeral=True)
 
 
@@ -680,7 +680,7 @@ async def welcome(ctx):
         ),
         color=0xE74C3C,
     )
-    embed.set_image(url="https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/Apptivators%20Academy.png")
+    embed.set_image(url="https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/openclaw-logo-text-dark.png")
     embed.add_field(
         name="🚀 Your Journey",
         value="Click the button below to start your skill assessment and agree to the server protocols.",

@@ -28,33 +28,33 @@ SORRY_DAVE_MSG = "!!!---SORRY_DAVE_YOU_SHOULD_HAVE_KNOWN_WE_CAN'T_DO_THAT---!!!"
 SORRY_DAVE_CHANNEL_ID = 1480230319935324241 # Placeholder, update per build plan
 
 # VISUAL ASSETS (From Forge Assets)
-GUARD_AVATAR_URL = "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_ccdb2fa9-f41f-4ee6-8798-936616055dcc.png"
+GUARD_AVATAR_URL = "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_crimson.png"
 
 # DYNAMIC ALERT MAPPING (Categorized by Hazard Level)
 ALERT_ASSETS = {
     "CRITICAL": {
         "color": discord.Color.red(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/red_siren.gif",
-        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_red.png",
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_red.png",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_crimson.png",
         "label": "🚨 CRITICAL: SECURITY BREACH NEUTRALIZED 🚨"
     },
     "HIGH": {
         "color": discord.Color.orange(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/amber_siren.gif",
-        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_yellow.png",
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_amber.png",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_crimson.png",
         "label": "⚠️ HIGH: THREAT QUARANTINED ⚠️"
     },
     "MEDIUM": {
         "color": discord.Color.blue(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/blue_siren.gif",
-        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_blue.png",
-        "label": "🔹 MEDIUM: ANOMALY DETECTED 🔹"
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_blue.png",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_green.png",
+        "label": "🛡️ MEDIUM: SUSPICIOUS ACTIVITY FLAGGED 🛡️"
     },
     "LOW": {
         "color": discord.Color.green(),
-        "siren": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/assets/sirens/green_siren.gif",
-        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/sampi_bot_green.png",
-        "label": "🟢 LOW: MINOR INFRACTION LOGGED 🟢"
+        "siren": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/siren_green.png",
+        "avatar": "https://raw.githubusercontent.com/whagan1310-droid/openclaw/main/docs/assets/bots/sampirt_green.png",
+        "label": "✅ LOW: ROUTINE SCAN COMPLETED ✅"
     }
 }
 
@@ -394,4 +394,10 @@ if __name__ == "__main__":
     load_dotenv()
     intents = discord.Intents.all()
     bot = SAMPIRatBot(command_prefix="!!", intents=intents)
-    bot.run(os.getenv("DISCORD_BOT_TOKEN"))
+    token = os.getenv("SAMPI_RT_TOKEN")
+    if token:
+        bot.run(token)
+    else:
+        print("S.A.M.P.I.RT: No SAMPI_RT_TOKEN found. Standing by.")
+        import time
+        while True: time.sleep(3600)

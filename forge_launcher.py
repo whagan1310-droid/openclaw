@@ -2,6 +2,10 @@ import subprocess
 import time
 import os
 import sys
+from dotenv import load_dotenv
+
+# Force load the latest tokens from .env over any stale terminal environment variables
+load_dotenv(override=True)
 
 # Apptivators Academy: The Forge Suite Launcher
 # This script starts all 4 bots as independent processes.
