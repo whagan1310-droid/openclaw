@@ -24,8 +24,10 @@ from datetime import datetime
 THREAT_VAULT_PATH = "threat_vault.json"
 SAFE_HARBOR_PATH = "safe_harbor.json" # Whitelist
 STRIKE_LOG_PATH = "strike_log.json"
+SHARED_LINKS_PATH = "shared_links.json"
 SORRY_DAVE_MSG = "!!!---SORRY_DAVE_YOU_SHOULD_HAVE_KNOWN_WE_CAN'T_DO_THAT---!!!"
 SORRY_DAVE_CHANNEL_ID = 1480230319935324241 # Placeholder, update per build plan
+GITHUB_SHARE_CHANNEL_ID = 1481056548510892063  # Category or channel for shared links
 
 # VISUAL ASSETS (From Forge Assets)
 GUARD_AVATAR_URL = "https://raw.githubusercontent.com/whagan1310-droid/Discord-Build-Plan-Apptivators-Academy/main/AA/image_ccdb2fa9-f41f-4ee6-8798-936616055dcc.png"
@@ -387,6 +389,133 @@ class SAMPIRatBot(commands.Bot):
             ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
             case_id = os.urandom(4).hex().upper()
             f.write(f"| {ts} | {user.name} ({user.id}) | {action} | {moderator} | {case_id} |\n")
+
+    # ══════════════════════════════════════════════
+    #  GITHUB LINK SHARING SYSTEM
+    # ══════════════════════════════════════════════
+
+    def _validate_github_url(self, url: str) -> bool:
+        """Validate if URL is a valid public GitHub repository."""
+        github_pattern = r'^https?://(www\.)?github\.com/[\w-]+/[\w.-]+/?$'
+        return bool(re.match(github_pattern, url.strip()))
+
+    async def _verify_github_accessible(self, url: str) -> bool:
+        """Verify GitHub repo is accessible (not private)."""
+        try:
+            async with aiohttp.ClientSession() as session:
+                api_url = url.replace("github.com", "api.github.com/repos")
+                async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        return data.get("private", True) == False
+                    return False
+        except:
+            return False
+
+    def _load_shared_links(self) -> list:
+        """Load shared links from JSON file."""
+        if os.path.exists(SHARED_LINKS_PATH):
+            with open(SHARED_LINKS_PATH, "r") as f:
+                return json.load(f)
+        return []
+
+    def _save_shared_links(self, links: list):
+        """Save shared links to JSON file."""
+        with open(SHARED_LINKS_PATH, "w") as f:
+            json.dump(links, f, indent=2)
+
+    @commands.command(name="sharelink")
+    async def sharelink(self, ctx, github_url: str, *, description: str = None):
+        """Share a public GitHub link to the community. Usage: !!sharelink <github_url> [description]"""
+        await ctx.message.delete()
+        
+        if not self._validate_github_url(github_url):
+            await ctx.send("❌ **INVALID LINK**: Please provide a valid GitHub repository URL.\nExample: `!!sharelink https://github.com/username/repo`", delete_after=10)
+            return
+
+        await ctx.trigger_typing()
+        
+        is_accessible = await self._verify_github_accessible(github_url)
+        if not is_accessible:
+            await ctx.send("❌ **ACCESS DENIED**: This GitHub repository appears to be private or does not exist.\nOnly **PUBLIC** repositories can be shared.", delete_after=15)
+            return
+
+        link_data = {
+            "id": len(self._load_shared_links()) + 1,
+            "url": github_url.strip(),
+            "description": description or "No description provided",
+            "user_id": str(ctx.author.id),
+            "user_name": ctx.author.name,
+            "user_nickname": ctx.author.display_name,
+            "channel_name": ctx.channel.name if ctx.guild else "DM",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        links = self._load_shared_links()
+        links.append(link_data)
+        self._save_shared_links(links)
+
+        embed = discord.Embed(
+            title=f"🔗 SHARED REPOSITORY #{link_data['id']}",
+            color=discord.Color.from_rgb(88, 101, 242),
+            url=github_url.strip()
+        )
+        embed.add_field(name="📂 Repository", value=f"[{github_url.strip()}]({github_url.strip()})", inline=False)
+        embed.add_field(name="📝 Description", value=link_data["description"], inline=False)
+        embed.add_field(name="👤 Shared By", value=f"**{ctx.author.display_name}** (`{ctx.author.id}`)", inline=True)
+        embed.add_field(name="💬 Channel", value=f"#{ctx.channel.name if ctx.guild else 'DM'}", inline=True)
+        embed.add_field(name="⏰ Added", value=f"<t:{int(datetime.utcnow().timestamp())}:R>", inline=True)
+        embed.set_footer(text="🔒 Verified Public Repository • S.A.M.P.I.RT Link Security")
+        embed.set_thumbnail(url="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
+
+        await ctx.send(embed=embed)
+
+    @commands.command(name="links")
+    async def list_links(self, ctx, limit: int = 10):
+        """List shared GitHub links. Usage: !!links [number]"""
+        links = self._load_shared_links()
+        if not links:
+            await ctx.send("📭 No links shared yet. Use `!!sharelink <github_url> [description]` to share a repository!")
+            return
+
+        links = links[-limit:]
+        embed = discord.Embed(
+            title="🔗 Recent Shared Repositories",
+            color=discord.Color.from_rgb(88, 101, 242)
+        )
+        
+        for link in links:
+            embed.add_field(
+                name=f"#{link['id']} • {link['user_nickname']}",
+                value=f"[{link['url']}]({link['url']})\n{link['description'][:100]}...",
+                inline=False
+            )
+        
+        await ctx.send(embed=embed)
+
+    @commands.command(name="mylinks")
+    async def my_links(self, ctx):
+        """Show links you've shared."""
+        links = self._load_shared_links()
+        user_links = [l for l in links if str(l["user_id"]) == str(ctx.author.id)]
+        
+        if not user_links:
+            await ctx.send("📭 You haven't shared any links yet.")
+            return
+
+        embed = discord.Embed(
+            title=f"🔗 Your Shared Repositories ({len(user_links)})",
+            color=discord.Color.from_rgb(88, 101, 242)
+        )
+        
+        for link in user_links:
+            embed.add_field(
+                name=f"#{link['id']} • {link['timestamp'][:10]}",
+                value=f"[{link['url']}]({link['url']})\n{link['description'][:80]}",
+                inline=False
+            )
+        
+        await ctx.send(embed=embed)
 
 # MAIN ENTRY POINT
 if __name__ == "__main__":
