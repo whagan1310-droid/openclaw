@@ -53,17 +53,27 @@ Our community follows the **Expanding Brain** progression model. Everyone starts
 
 ---
 
-## 📂 Server Structure & Channel IDs 📂
+## 📂 Server Structure & Categories 📂
 
-| ID | Channel | Description |
-| :--- | :--- | :--- |
-| `1480230319935324241` | ⚔️welcome⚔️ | Landing page with `Apptivators Academy.png`. |
-| `1480229817356910755` | ⚔️rules⚔️ | Server Development Guidelines. |
-| `1480229121958215681` | ⚔️definitions⚔️ | Role and channel purposes. |
-| `1480234013481242735` | ⚔️roles⚔️ | Expansion Brain UI for skill selection. |
-| `1480229956419322017` | ⚔️call-to-arms⚔️ | The start of your journey. |
-| `1479944143613591764` | #general | Main community chat. |
-| (Mapping) | #sorry_dave | SAMPI.RT quarantine logs. |
+### Category: Academy Foundation
+| Category ID | Purpose |
+| :--- | :--- |
+| `1481056548510892063` | Main Academy Category |
+
+### Onboarding Channels
+| Channel | Description |
+| :--- | :--- |
+| ⚔️welcome⚔️ | Landing page with `Apptivators Academy.png`. |
+| ⚔️rules⚔️ | Server Development Guidelines. |
+| ⚔️definitions⚔️ | Role and channel purposes. |
+| ⚔️roles⚔️ | Expansion Brain UI for skill selection. |
+| ⚔️call-to-arms⚔️ | The start of your journey. |
+
+### General Channels
+| Channel | Description |
+| :--- | :--- |
+| #general | Main community chat. |
+| #sorry_dave | SAMPI.RT quarantine logs. |
 
 ---
 
