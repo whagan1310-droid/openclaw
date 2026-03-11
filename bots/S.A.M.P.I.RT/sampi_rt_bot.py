@@ -394,7 +394,7 @@ if __name__ == "__main__":
     load_dotenv()
     intents = discord.Intents.all()
     bot = SAMPIRatBot(command_prefix="!!", intents=intents)
-    token = os.getenv("SAMPI_RT_TOKEN")
+    token = os.getenv("SAMPiRT_TOKEN")
     if token:
         bot.run(token)
     else:
