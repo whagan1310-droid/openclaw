@@ -137,7 +137,11 @@ CHANNEL_IDS = {
     "roles": 1480234013481242735,
     "call_to_arms": 1480229956419322017,
     "general": 1479944143613591764,
+    "sync_status": 1480788840611446988,
 }
+
+# Locked channels (text disabled, emojis only)
+LOCKED_CHANNELS = [1480788840611446988]  # sync-status - owner only text, emojis allowed
 
 # Default role for all new members
 DEFAULT_JOIN_ROLE = "Initiate"
@@ -619,6 +623,16 @@ async def on_message(message):
     """
     if message.author.bot:
         return
+
+    # Locked channels - only owner can post text, everyone can react
+    if message.channel.id in LOCKED_CHANNELS:
+        if not message.author.guild_permissions.administrator:
+            try:
+                await message.delete()
+                await message.channel.send(f"🔒 {message.author.mention}, this channel is locked. Only admins can post text. You can still react with emojis!", delete_after=8)
+                return
+            except Exception as e:
+                logger.error(f"Locked Channel Error: {e}")
 
     # Basic Link Prevention (Example Sentinel Logic)
     banned_links = ["discord.gg/", "invite.gg/"] # Prevent external server invites
